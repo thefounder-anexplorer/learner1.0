@@ -81,17 +81,6 @@
             border-radius: 50%;
         }
 
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: -40%;
-            left: -10%;
-            width: 250px;
-            height: 250px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
-        }
-
         header .back-link {
             position: absolute;
             top: 20px;
@@ -154,7 +143,7 @@
             z-index: 1;
         }
 
-        /* ===== PROGRESS BAR GLOBAL ===== */
+        /* ===== PROGRESS BAR ===== */
         .progress-wrapper {
             max-width: 600px;
             margin: 0 auto;
@@ -217,6 +206,10 @@
             font-size: 1.8rem;
             font-weight: bold;
             color: var(--primary);
+        }
+
+        body.dark .stat-card .stat-value {
+            color: var(--text);
         }
 
         .stat-card .stat-label {
@@ -290,20 +283,8 @@
         }
 
         .day-card.completed {
-            opacity: 0.7;
-            border-left-color: var(--success);
+            opacity: 0.75;
             background: linear-gradient(to right, rgba(46, 204, 113, 0.05), var(--card));
-        }
-
-        .day-card.completed::after {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: 20px;
-            right: 22px;
-            color: var(--success);
-            font-size: 1.4rem;
         }
 
         .day-card[data-phase="1"] { border-left-color: #2ecc71; }
@@ -429,12 +410,13 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             z-index: 1000;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             padding: 20px;
             backdrop-filter: blur(4px);
+            overflow-y: auto;
         }
 
         .modal-overlay.active {
@@ -444,10 +426,9 @@
         .modal {
             background: var(--card);
             border-radius: 20px;
-            max-width: 800px;
+            max-width: 820px;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
+            margin: 30px auto;
             padding: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             position: relative;
@@ -472,6 +453,11 @@
             font-size: 1rem;
             color: var(--text);
             transition: all 0.3s;
+            z-index: 3;
+        }
+
+        body.dark .modal-close {
+            background: #2c3e50;
         }
 
         .modal-close:hover {
@@ -484,6 +470,7 @@
             font-size: 1.6rem;
             color: var(--primary);
             margin-bottom: 8px;
+            padding-right: 40px;
         }
 
         body.dark .modal h2 {
@@ -497,9 +484,16 @@
         }
 
         .modal h3 {
-            font-size: 1.15rem;
-            margin: 20px 0 10px;
+            font-size: 1.1rem;
+            margin: 22px 0 10px;
             color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        body.dark .modal h3 {
+            color: #5dade2;
         }
 
         .modal p {
@@ -520,17 +514,45 @@
             color: var(--text);
         }
 
+        .modal code {
+            background: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85em;
+            color: #e74c3c;
+        }
+
+        body.dark .modal code {
+            background: #2c3e50;
+            color: #f39c12;
+        }
+
+        /* ===== CODE BLOCK — DIPERBAIKI ===== */
         .code-block {
             background: #1e2a35;
             color: #ecf0f1;
-            padding: 16px 20px;
+            padding: 14px 16px;
             border-radius: 10px;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
+            font-size: 0.8rem;
+            line-height: 1.55;
             overflow-x: auto;
+            overflow-y: auto;
             margin: 10px 0 15px;
             border-left: 4px solid var(--accent);
+            white-space: pre;
+            max-height: 320px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .code-block::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .code-block::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
         }
 
         .code-block .tag { color: #e74c3c; }
@@ -540,15 +562,7 @@
         .code-block .keyword { color: #9b59b6; }
         .code-block .string { color: #1abc9c; }
 
-        .preview-box {
-            background: #fff;
-            border: 2px dashed var(--border);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0 15px;
-            color: #2c3e50;
-        }
-
+        /* ===== EXERCISE BOX ===== */
         .exercise-box {
             background: linear-gradient(135deg, #fff9e6, #fef5e7);
             border-left: 4px solid var(--warning);
@@ -564,6 +578,225 @@
 
         .exercise-box strong {
             color: var(--warning);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .exercise-box p {
+            color: inherit !important;
+            font-size: 0.9rem;
+        }
+
+        /* ===== CODE EDITOR (LATIHAN) ===== */
+        .practice-section {
+            background: linear-gradient(135deg, #e8f8f5, #d1f2eb);
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0 10px;
+            border: 2px dashed #1abc9c;
+        }
+
+        body.dark .practice-section {
+            background: linear-gradient(135deg, #0e3d36, #0a2b26);
+            border-color: #16a085;
+        }
+
+        .practice-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            color: #0e6655;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        body.dark .practice-title {
+            color: #1abc9c;
+        }
+
+        .practice-title i {
+            font-size: 1.2rem;
+        }
+
+        .practice-task {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .editor-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .editor-label span:first-child {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .code-editor {
+            width: 100%;
+            min-height: 140px;
+            background: #1e2a35;
+            color: #ecf0f1;
+            border: 2px solid #34495e;
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border 0.3s;
+            white-space: pre;
+            overflow-x: auto;
+            tab-size: 2;
+        }
+
+        .code-editor:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.15);
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .editor-actions .btn {
+            font-size: 0.8rem;
+            padding: 8px 16px;
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: #fff;
+        }
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(26, 188, 156, 0.35);
+        }
+
+        .btn-hint {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: #fff;
+        }
+        .btn-hint:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(243, 156, 18, 0.35);
+        }
+
+        .btn-reset {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        .btn-reset:hover {
+            background: var(--light);
+        }
+
+        body.dark .btn-reset:hover {
+            background: #2c3e50;
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-box {
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-box.success {
+            background: #eafaf1;
+            border-left: 4px solid #2ecc71;
+            color: #196f3d;
+        }
+
+        body.dark .feedback-box.success {
+            background: #0e3d2e;
+            color: #a9dfbf;
+        }
+
+        .feedback-box.error {
+            background: #fdedec;
+            border-left: 4px solid #e74c3c;
+            color: #922b21;
+        }
+
+        body.dark .feedback-box.error {
+            background: #3d1714;
+            color: #f5b7b1;
+        }
+
+        .feedback-box.hint {
+            background: #fef9e7;
+            border-left: 4px solid #f39c12;
+            color: #7d6608;
+        }
+
+        body.dark .feedback-box.hint {
+            background: #3d3416;
+            color: #f9e79f;
+        }
+
+        .feedback-box strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* ===== PREVIEW ===== */
+        .preview-box {
+            background: #ffffff;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 10px;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            min-height: 60px;
+            overflow-x: auto;
+        }
+
+        .preview-box.dark-preview {
+            background: #1a2733;
+            color: #ecf0f1;
+        }
+
+        .preview-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         /* ===== FOOTER ===== */
@@ -605,12 +838,31 @@
             .day-actions .btn { width: 100%; justify-content: center; }
             .modal { padding: 22px 18px; }
             .day-badge { margin-left: 0; }
+            .editor-actions { flex-direction: column; }
+            .editor-actions .btn { width: 100%; justify-content: center; }
+
+            /* === KUNCI: KODE DI HP TIDAK JADI PARAGRAF BARU === */
+            .code-block,
+            .code-editor {
+                font-size: 0.72rem;
+                padding: 12px 12px;
+                line-height: 1.5;
+            }
+
+            .modal h2 { font-size: 1.3rem; }
+            .modal h3 { font-size: 1rem; }
         }
 
         @media (max-width: 480px) {
             h1 { font-size: 1.6rem; }
             .stat-card { padding: 15px; }
             .stat-card .stat-value { font-size: 1.4rem; }
+            .practice-section { padding: 14px; }
+            .code-block,
+            .code-editor {
+                font-size: 0.68rem;
+                padding: 10px;
+            }
         }
 
         /* ===== ANIMASI ===== */
@@ -623,8 +875,7 @@
             animation: fadeInUp 0.4s ease backwards;
         }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
             background: rgba(52, 152, 219, 0.4);
@@ -705,9 +956,7 @@
         </div>
 
         <!-- ===== DAY LIST ===== -->
-        <div class="day-list" id="dayList">
-            <!-- Kartu hari akan di-generate oleh JavaScript -->
-        </div>
+        <div class="day-list" id="dayList"></div>
 
         <!-- ===== FOOTER ===== -->
         <footer>
@@ -719,14 +968,12 @@
 
     <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="modalOverlay">
-        <div class="modal" id="modalContent">
-            <!-- Konten modal di-generate JS -->
-        </div>
+        <div class="modal" id="modalContent"></div>
     </div>
 
     <script>
         // ============================================================
-        // KURIKULUM 30 HARI BELAJAR HTML
+        // KURIKULUM 30 HARI (dengan latihan editor)
         // ============================================================
         const curriculum = [
             // ===== FASE 1: DASAR (Hari 1-7) =====
@@ -734,160 +981,252 @@
                 day: 1, phase: 1, title: "Pengenalan HTML & Struktur Dasar",
                 desc: "Kenalan dengan HTML, cara kerja browser, dan struktur dasar halaman web.",
                 material: `
-                    <h3>Apa itu HTML?</h3>
-                    <p>HTML (HyperText Markup Language) adalah bahasa yang digunakan untuk membuat struktur halaman web. Bayangkan HTML sebagai <em>kerangka</em> dari rumah — tanpa itu, rumah tidak berdiri.</p>
-                    <h3>Struktur Dasar</h3>
+                    <h3>📖 Apa itu HTML?</h3>
+                    <p>HTML (HyperText Markup Language) adalah bahasa untuk membuat struktur halaman web. Bayangkan HTML sebagai <em>kerangka</em> dari rumah — tanpa itu, rumah tidak berdiri.</p>
+                    <h3>🏗️ Struktur Dasar</h3>
                     <p>Setiap halaman HTML memiliki struktur dasar seperti ini:</p>
                     <div class="code-block">
-<span class="tag">&lt;!DOCTYPE html&gt;</span>
-<span class="tag">&lt;html&gt;</span>
-<span class="tag">&lt;head&gt;</span>
-    <span class="tag">&lt;title&gt;</span>Judul Halaman<span class="tag">&lt;/title&gt;</span>
-<span class="tag">&lt;/head&gt;</span>
-<span class="tag">&lt;body&gt;</span>
-    <span class="comment">&lt;!-- Konten halaman di sini --&gt;</span>
-<span class="tag">&lt;/body&gt;</span>
-<span class="tag">&lt;/html&gt;</span>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Judul Halaman&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Konten halaman di sini --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
                     </div>
                     <p>Setiap tag HTML memiliki pasangan buka dan tutup. Tag pembuka seperti <code>&lt;p&gt;</code>, tag penutup seperti <code>&lt;/p&gt;</code>.</p>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan 5 Menit:</strong>
-                        <p>Buat file <code>latihan.html</code>, tulis struktur dasar HTML, dan isi judul dengan namamu. Buka di browser dan lihat hasilnya.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Tulis struktur dasar HTML dengan judul <strong>\"Halaman Pertamaku\"</strong> dan isi body dengan paragraf <strong>\"Halo, saya sedang belajar HTML!\"</strong>",
+                    hint: "Gunakan urutan: &lt;!DOCTYPE html&gt; → &lt;html&gt; → &lt;head&gt; → &lt;title&gt; → &lt;/head&gt; → &lt;body&gt; → &lt;p&gt; → &lt;/body&gt; → &lt;/html&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('<!doctype html>'), msg: 'Awali dengan <code>&lt;!DOCTYPE html&gt;</code>' },
+                            { ok: c.includes('<html'), msg: 'Tambahkan tag <code>&lt;html&gt;</code>' },
+                            { ok: c.includes('<head'), msg: 'Tambahkan tag <code>&lt;head&gt;</code>' },
+                            { ok: c.includes('<title'), msg: 'Tambahkan tag <code>&lt;title&gt;</code>' },
+                            { ok: c.includes('halaman pertamaku'), msg: 'Judul harus berisi "Halaman Pertamaku"' },
+                            { ok: c.includes('<body'), msg: 'Tambahkan tag <code>&lt;body&gt;</code>' },
+                            { ok: c.includes('<p'), msg: 'Tambahkan paragraf dengan <code>&lt;p&gt;</code>' },
+                            { ok: c.includes('halo, saya sedang belajar html!'), msg: 'Isi paragraf harus "Halo, saya sedang belajar HTML!"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Sempurna! Struktur HTML kamu sudah benar. 🎉' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 2, phase: 1, title: "Tag Teks: Heading & Paragraf",
                 desc: "Belajar tag heading (h1-h6) dan paragraf untuk menulis konten.",
                 material: `
-                    <h3>Tag Heading</h3>
-                    <p>HTML memiliki 6 level heading, dari <code>&lt;h1&gt;</code> yang paling besar hingga <code>&lt;h6&gt;</code> yang paling kecil.</p>
+                    <h3>📖 Tag Heading</h3>
+                    <p>HTML memiliki 6 level heading, dari <code>&lt;h1&gt;</code> (paling besar) hingga <code>&lt;h6&gt;</code> (paling kecil).</p>
                     <div class="code-block">
-<span class="tag">&lt;h1&gt;</span>Judul Utama<span class="tag">&lt;/h1&gt;</span>
-<span class="tag">&lt;h2&gt;</span>Sub Judul<span class="tag">&lt;/h2&gt;</span>
-<span class="tag">&lt;h3&gt;</span>Sub Sub Judul<span class="tag">&lt;/h3&gt;</span>
+&lt;h1&gt;Judul Utama&lt;/h1&gt;
+&lt;h2&gt;Sub Judul&lt;/h2&gt;
+&lt;h3&gt;Sub Sub Judul&lt;/h3&gt;
                     </div>
-                    <h3>Paragraf</h3>
+                    <h3>📝 Paragraf</h3>
                     <p>Tag <code>&lt;p&gt;</code> digunakan untuk membuat paragraf teks.</p>
                     <div class="code-block">
-<span class="tag">&lt;p&gt;</span>Ini adalah paragraf pertama saya.<span class="tag">&lt;/p&gt;</span>
+&lt;p&gt;Ini adalah paragraf pertama saya.&lt;/p&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat halaman dengan 1 heading utama (h1), 2 sub-heading (h2), dan 3 paragraf yang menceritakan hobi kamu.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat halaman dengan 1 heading utama (h1) berisi <strong>\"Tentang Saya\"</strong>, 1 sub-heading (h2) berisi <strong>\"Hobi\"</strong>, dan 1 paragraf berisi <strong>\"Saya suka belajar fisika.\"</strong>",
+                    hint: "Gunakan &lt;h1&gt;Tentang Saya&lt;/h1&gt; lalu &lt;h2&gt;Hobi&lt;/h2&gt; lalu &lt;p&gt;...&lt;/p&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('<h1'), msg: 'Tambahkan heading <code>&lt;h1&gt;</code>' },
+                            { ok: c.includes('tentang saya'), msg: 'Isi h1 harus "Tentang Saya"' },
+                            { ok: c.includes('<h2'), msg: 'Tambahkan sub-heading <code>&lt;h2&gt;</code>' },
+                            { ok: c.includes('hobi'), msg: 'Isi h2 harus "Hobi"' },
+                            { ok: c.includes('<p'), msg: 'Tambahkan paragraf <code>&lt;p&gt;</code>' },
+                            { ok: c.includes('saya suka belajar fisika.'), msg: 'Isi paragraf harus "Saya suka belajar fisika."' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! Struktur heading & paragraf kamu rapi. 👏' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 3, phase: 1, title: "Memformat Teks: Bold, Italic, Underline",
                 desc: "Gunakan tag formatting untuk menekankan teks penting.",
                 material: `
-                    <h3>Tag Formatting Teks</h3>
+                    <h3>📖 Tag Formatting Teks</h3>
                     <ul>
-                        <li><code>&lt;b&gt;</code> atau <code>&lt;strong&gt;</code> — <strong>teks tebal</strong></li>
-                        <li><code>&lt;i&gt;</code> atau <code>&lt;em&gt;</code> — <em>teks miring</em></li>
-                        <li><code>&lt;u&gt;</code> — <u>teks bergaris bawah</u></li>
-                        <li><code>&lt;mark&gt;</code> — <mark>teks tersorot</mark></li>
-                        <li><code>&lt;small&gt;</code> — <small>teks kecil</small></li>
-                        <li><code>&lt;del&gt;</code> — <del>teks dicoret</del></li>
+                        <li><code>&lt;strong&gt;</code> — teks tebal (penting)</li>
+                        <li><code>&lt;em&gt;</code> — teks miring (penekanan)</li>
+                        <li><code>&lt;u&gt;</code> — teks bergaris bawah</li>
+                        <li><code>&lt;mark&gt;</code> — teks tersorot</li>
+                        <li><code>&lt;del&gt;</code> — teks dicoret</li>
                     </ul>
                     <div class="code-block">
-<span class="tag">&lt;p&gt;</span>Ini <span class="tag">&lt;strong&gt;</span>penting<span class="tag">&lt;/strong&gt;</span> dan ini <span class="tag">&lt;em&gt;</span>penekanan<span class="tag">&lt;/em&gt;</span>.<span class="tag">&lt;/p&gt;</span>
+&lt;p&gt;Ini &lt;strong&gt;penting&lt;/strong&gt; dan ini &lt;em&gt;penekanan&lt;/em&gt;.&lt;/p&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Tulis satu paragraf tentang dirimu, gunakan minimal 3 tag formatting berbeda.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Tulis satu paragraf: <strong>\"Saya suka minum kopi panas\"</strong> dengan kata <em>\"kopi\"</em> dibuat tebal dan kata <em>\"panas\"</em> dibuat miring.",
+                    hint: "Gunakan &lt;strong&gt;kopi&lt;/strong&gt; dan &lt;em&gt;panas&lt;/em&gt; di dalam paragraf.",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<p'), msg: 'Bungkus dengan tag <code>&lt;p&gt;</code>' },
+                            { ok: c.includes('<strong>kopi</strong>') || c.includes('<b>kopi</b>'), msg: 'Kata "kopi" harus dibungkus <code>&lt;strong&gt;</code>' },
+                            { ok: c.includes('<em>panas</em>') || c.includes('<i>panas</i>'), msg: 'Kata "panas" harus dibungkus <code>&lt;em&gt;</code>' },
+                            { ok: c.includes('saya suka minum'), msg: 'Paragraf harus berisi "Saya suka minum"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Keren! Formatting teks sudah kamu kuasai. ✨' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 4, phase: 1, title: "Membuat Link (Hyperlink)",
                 desc: "Menghubungkan halaman satu dengan halaman lain menggunakan tag <a>.",
                 material: `
-                    <h3>Tag Link</h3>
+                    <h3>📖 Tag Link</h3>
                     <p>Tag <code>&lt;a&gt;</code> (anchor) digunakan untuk membuat link ke halaman lain.</p>
                     <div class="code-block">
-<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"https://google.com"</span><span class="tag">&gt;</span>Kunjungi Google<span class="tag">&lt;/a&gt;</span>
+&lt;a href="https://google.com"&gt;Kunjungi Google&lt;/a&gt;
                     </div>
-                    <h3>Atribut Penting</h3>
+                    <h3>🔗 Atribut Penting</h3>
                     <ul>
                         <li><code>href</code> — alamat tujuan link</li>
                         <li><code>target="_blank"</code> — buka di tab baru</li>
-                        <li><code>title</code> — tooltip saat hover</li>
                     </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat 3 link: ke Google, YouTube, dan halaman favoritmu. Salah satunya buka di tab baru.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat 2 link: (1) ke <strong>https://google.com</strong> dengan teks <strong>\"Google\"</strong>, dan (2) ke <strong>https://youtube.com</strong> dengan teks <strong>\"YouTube\"</strong> yang dibuka di tab baru.",
+                    hint: "Tambahkan target=&quot;_blank&quot; pada link YouTube.",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('href="https://google.com"') || c.includes("href='https://google.com'"), msg: 'Link Google harus ke https://google.com' },
+                            { ok: c.includes('>google<') || c.includes('>google <'), msg: 'Teks link pertama harus "Google"' },
+                            { ok: c.includes('href="https://youtube.com"') || c.includes("href='https://youtube.com'"), msg: 'Link YouTube harus ke https://youtube.com' },
+                            { ok: c.includes('_blank'), msg: 'Link YouTube harus pakai target="_blank"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Bagus! Link sudah kamu buat dengan benar. 🔗' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 5, phase: 1, title: "Menampilkan Gambar",
                 desc: "Sisipkan gambar ke halaman web dengan tag <img>.",
                 material: `
-                    <h3>Tag Gambar</h3>
-                    <p>Tag <code>&lt;img&gt;</code> adalah tag yang tidak butuh penutup (self-closing).</p>
+                    <h3>📖 Tag Gambar</h3>
+                    <p>Tag <code>&lt;img&gt;</code> adalah self-closing (tidak butuh penutup).</p>
                     <div class="code-block">
-<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="value">"gambar.jpg"</span> <span class="attr">alt</span>=<span class="value">"Deskripsi"</span><span class="tag">&gt;</span>
+&lt;img src="gambar.jpg" alt="Deskripsi"&gt;
                     </div>
-                    <h3>Atribut Penting</h3>
+                    <h3>🖼️ Atribut Penting</h3>
                     <ul>
                         <li><code>src</code> — lokasi file gambar</li>
                         <li><code>alt</code> — teks alternatif jika gambar gagal dimuat</li>
                         <li><code>width</code> / <code>height</code> — ukuran gambar</li>
                     </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Tampilkan 3 gambar dari internet (cari URL gambar bebas pakai) dengan alt dan lebar 200px.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Tampilkan gambar dengan src <strong>https://picsum.photos/200</strong>, alt <strong>\"Foto random\"</strong>, dan lebar 200px.",
+                    hint: "Gunakan &lt;img src=&quot;...&quot; alt=&quot;...&quot; width=&quot;200&quot;&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<img'), msg: 'Tambahkan tag <code>&lt;img&gt;</code>' },
+                            { ok: c.includes('src=') && c.includes('picsum.photos/200'), msg: 'src harus "https://picsum.photos/200"' },
+                            { ok: c.includes('alt=') && c.includes('foto random'), msg: 'alt harus "Foto random"' },
+                            { ok: c.includes('width=') && c.includes('200'), msg: 'Tambahkan width="200"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! Gambar sudah tampil dengan benar. 📸' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 6, phase: 1, title: "Membuat List (Bullet & Numbering)",
                 desc: "Membuat daftar dengan unordered list dan ordered list.",
                 material: `
-                    <h3>Unordered List (Bullet)</h3>
+                    <h3>📖 Unordered List (Bullet)</h3>
                     <div class="code-block">
-<span class="tag">&lt;ul&gt;</span>
-    <span class="tag">&lt;li&gt;</span>Item 1<span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span>Item 2<span class="tag">&lt;/li&gt;</span>
-<span class="tag">&lt;/ul&gt;</span>
+&lt;ul&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;
                     </div>
-                    <h3>Ordered List (Angka)</h3>
+                    <h3>📖 Ordered List (Angka)</h3>
                     <div class="code-block">
-<span class="tag">&lt;ol&gt;</span>
-    <span class="tag">&lt;li&gt;</span>Langkah 1<span class="tag">&lt;/li&gt;</span>
-    <span class="tag">&lt;li&gt;</span>Langkah 2<span class="tag">&lt;/li&gt;</span>
-<span class="tag">&lt;/ol&gt;</span>
+&lt;ol&gt;
+    &lt;li&gt;Langkah 1&lt;/li&gt;
+    &lt;li&gt;Langkah 2&lt;/li&gt;
+&lt;/ol&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat 2 list: (1) Bullet berisi 5 makanan favorit, (2) Numbering berisi 5 langkah membuat kopi.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat unordered list (bullet) berisi 3 makanan favorit: <strong>Nasi Goreng, Sate, Bakso</strong>.",
+                    hint: "Gunakan &lt;ul&gt; sebagai pembungkus, lalu setiap item pakai &lt;li&gt;.",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<ul'), msg: 'Gunakan tag <code>&lt;ul&gt;</code>' },
+                            { ok: c.includes('<li'), msg: 'Tambahkan item dengan <code>&lt;li&gt;</code>' },
+                            { ok: (c.match(/<li/g) || []).length >= 3, msg: 'Minimal 3 item <code>&lt;li&gt;</code>' },
+                            { ok: c.includes('nasi goreng'), msg: 'Item harus berisi "Nasi Goreng"' },
+                            { ok: c.includes('sate'), msg: 'Item harus berisi "Sate"' },
+                            { ok: c.includes('bakso'), msg: 'Item harus berisi "Bakso"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! List kamu sudah rapi. 📝' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 7, phase: 1, title: "Tabel Sederhana",
                 desc: "Buat tabel dengan baris dan kolom untuk data terstruktur.",
                 material: `
-                    <h3>Struktur Tabel</h3>
+                    <h3>📖 Struktur Tabel</h3>
                     <div class="code-block">
-<span class="tag">&lt;table&gt;</span>
-    <span class="tag">&lt;tr&gt;</span>  <span class="comment">&lt;!-- table row --&gt;</span>
-        <span class="tag">&lt;th&gt;</span>Nama<span class="tag">&lt;/th&gt;</span>  <span class="comment">&lt;!-- header --&gt;</span>
-        <span class="tag">&lt;th&gt;</span>Umur<span class="tag">&lt;/th&gt;</span>
-    <span class="tag">&lt;/tr&gt;</span>
-    <span class="tag">&lt;tr&gt;</span>
-        <span class="tag">&lt;td&gt;</span>Budi<span class="tag">&lt;/td&gt;</span>  <span class="comment">&lt;!-- data --&gt;</span>
-        <span class="tag">&lt;td&gt;</span>25<span class="tag">&lt;/td&gt;</span>
-    <span class="tag">&lt;/tr&gt;</span>
-<span class="tag">&lt;/table&gt;</span>
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Nama&lt;/th&gt;
+        &lt;th&gt;Umur&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Budi&lt;/td&gt;
+        &lt;td&gt;25&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat tabel daftar 5 temanmu: kolom Nama, Umur, dan Hobi.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat tabel dengan header <strong>Nama</strong> dan <strong>Umur</strong>, lalu 1 baris data: <strong>Budi, 25</strong>.",
+                    hint: "Gunakan &lt;table&gt;, &lt;tr&gt; untuk baris, &lt;th&gt; untuk header, &lt;td&gt; untuk data.",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<table'), msg: 'Gunakan tag <code>&lt;table&gt;</code>' },
+                            { ok: c.includes('<tr'), msg: 'Tambahkan baris dengan <code>&lt;tr&gt;</code>' },
+                            { ok: c.includes('<th>nama</th>') || c.includes('<th> nama'), msg: 'Header harus berisi "Nama"' },
+                            { ok: c.includes('<th>umur</th>') || c.includes('<th> umur'), msg: 'Header harus berisi "Umur"' },
+                            { ok: c.includes('<td>budi</td>'), msg: 'Data harus berisi "Budi"' },
+                            { ok: c.includes('<td>25</td>'), msg: 'Data harus berisi "25"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Hebat! Kamu sudah bisa membuat tabel. 📊' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
 
             // ===== FASE 2: STRUKTUR (Hari 8-14) =====
@@ -895,149 +1234,215 @@
                 day: 8, phase: 2, title: "Form & Input",
                 desc: "Membuat form untuk menerima input dari pengguna.",
                 material: `
-                    <h3>Form Dasar</h3>
+                    <h3>📖 Form Dasar</h3>
                     <div class="code-block">
-<span class="tag">&lt;form&gt;</span>
-    <span class="tag">&lt;label&gt;</span>Nama:<span class="tag">&lt;/label&gt;</span>
-    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="value">"text"</span> <span class="attr">name</span>=<span class="value">"nama"</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="value">"submit"</span><span class="tag">&gt;</span>Kirim<span class="tag">&lt;/button&gt;</span>
-<span class="tag">&lt;/form&gt;</span>
+&lt;form&gt;
+    &lt;label&gt;Nama:&lt;/label&gt;
+    &lt;input type="text" name="nama"&gt;
+    &lt;button type="submit"&gt;Kirim&lt;/button&gt;
+&lt;/form&gt;
                     </div>
-                    <h3>Jenis Input</h3>
-                    <ul>
-                        <li><code>text</code> — teks biasa</li>
-                        <li><code>email</code> — email</li>
-                        <li><code>password</code> — password</li>
-                        <li><code>number</code> — angka</li>
-                        <li><code>checkbox</code> — kotak centang</li>
-                        <li><code>radio</code> — pilihan tunggal</li>
-                    </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat form pendaftaran dengan: nama, email, password, tanggal lahir, dan tombol submit.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat form dengan 1 input teks (name='nama') dan 1 tombol submit bertuliskan <strong>Kirim</strong>.",
+                    hint: "Gunakan &lt;form&gt;, &lt;input type=&quot;text&quot;&gt;, dan &lt;button&gt;.",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<form'), msg: 'Bungkus dengan <code>&lt;form&gt;</code>' },
+                            { ok: c.includes('<input'), msg: 'Tambahkan <code>&lt;input&gt;</code>' },
+                            { ok: c.includes('type="text"') || c.includes("type='text'"), msg: 'Input harus type="text"' },
+                            { ok: c.includes('name="nama"') || c.includes("name='nama'"), msg: 'Input harus name="nama"' },
+                            { ok: c.includes('<button'), msg: 'Tambahkan <code>&lt;button&gt;</code>' },
+                            { ok: c.includes('kirim'), msg: 'Tombol harus bertuliskan "Kirim"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! Form sudah kamu buat dengan benar. 📋' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 9, phase: 2, title: "Semantic HTML",
                 desc: "Gunakan tag semantic untuk struktur yang lebih bermakna.",
                 material: `
-                    <h3>Tag Semantic</h3>
-                    <p>Tag semantic memberi makna pada struktur halaman, membantu SEO dan aksesibilitas.</p>
+                    <h3>📖 Tag Semantic</h3>
                     <ul>
-                        <li><code>&lt;header&gt;</code> — bagian kepala halaman</li>
+                        <li><code>&lt;header&gt;</code> — kepala halaman</li>
                         <li><code>&lt;nav&gt;</code> — navigasi</li>
                         <li><code>&lt;main&gt;</code> — konten utama</li>
-                        <li><code>&lt;section&gt;</code> — bagian konten</li>
                         <li><code>&lt;article&gt;</code> — artikel mandiri</li>
-                        <li><code>&lt;aside&gt;</code> — sidebar</li>
                         <li><code>&lt;footer&gt;</code> — kaki halaman</li>
                     </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat struktur blog sederhana menggunakan tag semantic di atas.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat struktur dengan <strong>&lt;header&gt;</strong>, <strong>&lt;main&gt;</strong>, dan <strong>&lt;footer&gt;</strong>. Isi main dengan paragraf <strong>\"Konten utama\"</strong>.",
+                    hint: "Urutan: &lt;header&gt;...&lt;/header&gt; → &lt;main&gt;...&lt;/main&gt; → &lt;footer&gt;...&lt;/footer&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<header'), msg: 'Tambahkan <code>&lt;header&gt;</code>' },
+                            { ok: c.includes('<main'), msg: 'Tambahkan <code>&lt;main&gt;</code>' },
+                            { ok: c.includes('konten utama'), msg: 'Isi main dengan "Konten utama"' },
+                            { ok: c.includes('<footer'), msg: 'Tambahkan <code>&lt;footer&gt;</code>' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Hebat! Struktur semantic HTML kamu sudah benar. 🏗️' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 10, phase: 2, title: "Meta Tag & SEO Dasar",
                 desc: "Optimasi halaman untuk mesin pencari dan tampilan di berbagai perangkat.",
                 material: `
-                    <h3>Meta Tag Penting</h3>
+                    <h3>📖 Meta Tag Penting</h3>
                     <div class="code-block">
-<span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="value">"UTF-8"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"viewport"</span> <span class="attr">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"description"</span> <span class="attr">content</span>=<span class="value">"Deskripsi halaman"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"keywords"</span> <span class="attr">content</span>=<span class="value">"html, css, web"</span><span class="tag">&gt;</span>
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;meta name="description" content="Deskripsi halaman"&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Tambahkan meta tag lengkap ke halaman portofoliomu: title, description, keywords, author.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Tambahkan 3 meta tag ke dalam &lt;head&gt;: charset UTF-8, viewport, dan description dengan isi <strong>\"Belajar HTML\"</strong>.",
+                    hint: "Letakkan meta tag di dalam &lt;head&gt;...&lt;/head&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('charset="utf-8"') || c.includes("charset='utf-8'"), msg: 'Tambahkan &lt;meta charset="UTF-8"&gt;' },
+                            { ok: c.includes('name="viewport"'), msg: 'Tambahkan meta viewport' },
+                            { ok: c.includes('name="description"'), msg: 'Tambahkan meta description' },
+                            { ok: c.includes('belajar html'), msg: 'Description harus berisi "Belajar HTML"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Keren! Meta tag SEO sudah kamu pasang. 🔍' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 11, phase: 2, title: "Iframe — Menyisipkan Halaman Lain",
                 desc: "Sisipkan video YouTube atau peta ke dalam halamanmu.",
                 material: `
-                    <h3>Tag Iframe</h3>
-                    <p>Iframe memungkinkan menyematkan halaman atau konten eksternal.</p>
+                    <h3>📖 Tag Iframe</h3>
                     <div class="code-block">
-<span class="tag">&lt;iframe</span> <span class="attr">src</span>=<span class="value">"https://www.youtube.com/embed/VIDEO_ID"</span> 
-        <span class="attr">width</span>=<span class="value">"560"</span> <span class="attr">height</span>=<span class="value">"315"</span><span class="tag">&gt;&lt;/iframe&gt;</span>
+&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID" width="560" height="315"&gt;&lt;/iframe&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Sisipkan video YouTube favoritmu dan Google Maps lokasi rumahmu.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat iframe dengan src <strong>https://www.example.com</strong>, width 400, dan height 300.",
+                    hint: "Gunakan &lt;iframe src=&quot;...&quot; width=&quot;...&quot; height=&quot;...&quot;&gt;&lt;/iframe&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<iframe'), msg: 'Tambahkan <code>&lt;iframe&gt;</code>' },
+                            { ok: c.includes('https://www.example.com'), msg: 'src harus "https://www.example.com"' },
+                            { ok: c.includes('width="400"'), msg: 'width harus 400' },
+                            { ok: c.includes('height="300"'), msg: 'height harus 300' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Bagus! Iframe sudah kamu buat. 🖼️' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 12, phase: 2, title: "Audio & Video HTML5",
                 desc: "Putar audio dan video langsung di halaman web.",
                 material: `
-                    <h3>Tag Video</h3>
+                    <h3>📖 Tag Video</h3>
                     <div class="code-block">
-<span class="tag">&lt;video</span> <span class="attr">controls</span> <span class="attr">width</span>=<span class="value">"400"</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="value">"video.mp4"</span> <span class="attr">type</span>=<span class="value">"video/mp4"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;/video&gt;</span>
+&lt;video controls width="400"&gt;
+    &lt;source src="video.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
                     </div>
-                    <h3>Tag Audio</h3>
+                    <h3>📖 Tag Audio</h3>
                     <div class="code-block">
-<span class="tag">&lt;audio</span> <span class="attr">controls</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="value">"musik.mp3"</span> <span class="attr">type</span>=<span class="value">"audio/mpeg"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;/audio&gt;</span>
+&lt;audio controls&gt;
+    &lt;source src="musik.mp3" type="audio/mpeg"&gt;
+&lt;/audio&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat halaman dengan 1 video dan 1 audio. Gunakan file dari internet atau lokal.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat tag &lt;video&gt; dengan controls, width 400, dan source <strong>video.mp4</strong> bertipe video/mp4.",
+                    hint: "Urutan: &lt;video controls width=&quot;400&quot;&gt;&lt;source src=&quot;video.mp4&quot; type=&quot;video/mp4&quot;&gt;&lt;/video&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<video'), msg: 'Tambahkan <code>&lt;video&gt;</code>' },
+                            { ok: c.includes('controls'), msg: 'Tambahkan atribut controls' },
+                            { ok: c.includes('width="400"'), msg: 'width harus 400' },
+                            { ok: c.includes('<source'), msg: 'Tambahkan <code>&lt;source&gt;</code>' },
+                            { ok: c.includes('video.mp4'), msg: 'src harus "video.mp4"' },
+                            { ok: c.includes('video/mp4'), msg: 'type harus "video/mp4"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! Video HTML5 sudah siap. 🎬' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 13, phase: 2, title: "Atribut Data & Class/ID",
                 desc: "Gunakan class dan id untuk styling dan JavaScript nanti.",
                 material: `
-                    <h3>Class vs ID</h3>
+                    <h3>📖 Class vs ID</h3>
                     <ul>
-                        <li><code>class</code> — untuk grup elemen (bisa dipakai berkali-kali)</li>
-                        <li><code>id</code> — untuk satu elemen unik (hanya sekali di halaman)</li>
+                        <li><code>class</code> — untuk grup elemen (bisa berkali-kali)</li>
+                        <li><code>id</code> — untuk satu elemen unik (hanya sekali)</li>
                     </ul>
                     <div class="code-block">
-<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"kartu"</span> <span class="attr">id</span>=<span class="value">"kartu-utama"</span><span class="tag">&gt;</span>
+&lt;div class="kartu" id="kartu-utama"&gt;
     Konten
-<span class="tag">&lt;/div&gt;</span>
+&lt;/div&gt;
                     </div>
-                    <h3>Atribut Data</h3>
-                    <p>Gunakan <code>data-*</code> untuk menyimpan data kustom.</p>
-                    <div class="code-block">
-<span class="tag">&lt;div</span> <span class="attr">data-user-id</span>=<span class="value">"123"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
-                    </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat 3 kartu dengan class sama dan 1 id khusus untuk kartu pertama.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat &lt;div&gt; dengan class <strong>\"kartu\"</strong> dan id <strong>\"kartu-utama\"</strong>, isi dengan teks <strong>\"Halo\"</strong>.",
+                    hint: "Gunakan &lt;div class=&quot;kartu&quot; id=&quot;kartu-utama&quot;&gt;...&lt;/div&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<div'), msg: 'Tambahkan <code>&lt;div&gt;</code>' },
+                            { ok: c.includes('class="kartu"') || c.includes("class='kartu'"), msg: 'class harus "kartu"' },
+                            { ok: c.includes('id="kartu-utama"') || c.includes("id='kartu-utama'"), msg: 'id harus "kartu-utama"' },
+                            { ok: c.includes('halo'), msg: 'Isi div dengan "Halo"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Bagus! Class & ID sudah kamu pahami. 🎯' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 14, phase: 2, title: "Project Mini: Profil Diri",
                 desc: "Gabungkan semua yang sudah dipelajari menjadi 1 halaman profil.",
                 material: `
-                    <h3>Mari Membuat Profil Diri!</h3>
-                    <p>Kamu akan membuat halaman profil yang berisi:</p>
+                    <h3>🎯 Project: Profil Diri</h3>
+                    <p>Buat halaman profil dengan:</p>
                     <ul>
-                        <li>Header dengan nama & foto</li>
-                        <li>Section tentang diri</li>
-                        <li>List hobi & keahlian</li>
-                        <li>Tabel pendidikan</li>
-                        <li>Link ke sosial media</li>
-                        <li>Form kontak</li>
+                        <li>Heading h1 dengan namamu</li>
+                        <li>Paragraf tentang dirimu</li>
+                        <li>List hobi</li>
+                        <li>Link ke media sosial</li>
                     </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Project:</strong>
-                        <p>Buat file <code>profil.html</code> dan isi dengan semua elemen di atas. Ini adalah project nyata pertamamu!</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat halaman profil dengan h1 berisi namamu, 1 paragraf, dan 3 hobi dalam bentuk &lt;ul&gt;.",
+                    hint: "Kombinasikan &lt;h1&gt;, &lt;p&gt;, dan &lt;ul&gt;&lt;li&gt;.",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<h1'), msg: 'Tambahkan <code>&lt;h1&gt;</code>' },
+                            { ok: c.includes('<p'), msg: 'Tambahkan paragraf <code>&lt;p&gt;</code>' },
+                            { ok: c.includes('<ul'), msg: 'Tambahkan <code>&lt;ul&gt;</code>' },
+                            { ok: (c.match(/<li/g) || []).length >= 3, msg: 'Minimal 3 item <code>&lt;li&gt;</code>' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Hebat! Project profil kamu sudah selesai! 🎉' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
 
             // ===== FASE 3: STYLING (Hari 15-21) =====
@@ -1045,169 +1450,219 @@
                 day: 15, phase: 3, title: "Pengenalan CSS",
                 desc: "Kenalan dengan CSS — bahasa untuk mempercantik HTML.",
                 material: `
-                    <h3>Apa itu CSS?</h3>
-                    <p>CSS (Cascading Style Sheets) mengatur tampilan HTML. Jika HTML = kerangka, CSS = cat dan dekorasi.</p>
-                    <h3>3 Cara Memasang CSS</h3>
-                    <ul>
-                        <li><strong>Inline</strong> — langsung di tag: <code>&lt;p style="color:red;"&gt;</code></li>
-                        <li><strong>Internal</strong> — di dalam <code>&lt;style&gt;</code> di head</li>
-                        <li><strong>External</strong> — file .css terpisah (paling direkomendasikan)</li>
-                    </ul>
+                    <h3>📖 Apa itu CSS?</h3>
+                    <p>CSS (Cascading Style Sheets) mengatur tampilan HTML. HTML = kerangka, CSS = cat.</p>
                     <div class="code-block">
-<span class="tag">&lt;style&gt;</span>
-    <span class="keyword">p</span> {
-        <span class="attr">color</span>: <span class="value">blue</span>;
-        <span class="attr">font-size</span>: <span class="value">18px</span>;
+&lt;style&gt;
+    p {
+        color: blue;
+        font-size: 18px;
     }
-<span class="tag">&lt;/style&gt;</span>
+&lt;/style&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Ubah warna heading di profilmu menjadi biru dan font-size menjadi 24px.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat &lt;style&gt; yang mengubah warna semua &lt;p&gt; menjadi <strong>biru</strong> dan font-size 18px.",
+                    hint: "Gunakan selector p { color: blue; font-size: 18px; }",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('<style'), msg: 'Tambahkan tag <code>&lt;style&gt;</code>' },
+                            { ok: c.includes('p {') || c.includes('p{'), msg: 'Tambahkan selector <code>p</code>' },
+                            { ok: c.includes('color: blue') || c.includes('color:blue'), msg: 'Warna harus blue' },
+                            { ok: c.includes('font-size: 18px') || c.includes('font-size:18px'), msg: 'font-size harus 18px' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Keren! CSS pertama kamu berhasil. 🎨' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 16, phase: 3, title: "CSS Selector",
                 desc: "Cara memilih elemen HTML untuk diberi style.",
                 material: `
-                    <h3>Jenis Selector</h3>
+                    <h3>📖 Jenis Selector</h3>
                     <ul>
-                        <li><code>p { }</code> — pilih semua tag p</li>
-                        <li><code>.kelas { }</code> — pilih semua elemen dengan class</li>
-                        <li><code>#id { }</code> — pilih elemen dengan id tertentu</li>
-                        <li><code>div p { }</code> — pilih p di dalam div</li>
-                        <li><code>a:hover { }</code> — saat di-hover</li>
+                        <li><code>p { }</code> — semua tag p</li>
+                        <li><code>.kelas { }</code> — class</li>
+                        <li><code>#id { }</code> — id</li>
+                        <li><code>a:hover { }</code> — saat hover</li>
                     </ul>
-                    <div class="code-block">
-<span class="keyword">.tombol</span> {
-    <span class="attr">background</span>: <span class="value">blue</span>;
-    <span class="attr">color</span>: <span class="value">white</span>;
-}
-<span class="keyword">.tombol:hover</span> {
-    <span class="attr">background</span>: <span class="value">darkblue</span>;
-}
-                    </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat 3 tombol dengan class <code>tombol</code>, atur warna dan efek hover-nya.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat style untuk class <strong>.tombol</strong> dengan background <strong>biru</strong> dan color <strong>putih</strong>.",
+                    hint: "Gunakan .tombol { background: blue; color: white; }",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('.tombol'), msg: 'Gunakan selector <code>.tombol</code>' },
+                            { ok: c.includes('background: blue') || c.includes('background:blue') || c.includes('background-color: blue'), msg: 'Background harus blue' },
+                            { ok: c.includes('color: white') || c.includes('color:white'), msg: 'Color harus white' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! Selector class sudah kamu kuasai. 🎯' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 17, phase: 3, title: "Box Model",
                 desc: "Pahami margin, padding, border, dan content.",
                 material: `
-                    <h3>Konsep Box Model</h3>
-                    <p>Setiap elemen HTML itu seperti kotak dengan 4 lapisan:</p>
+                    <h3>📖 Box Model</h3>
                     <ul>
                         <li><strong>Content</strong> — isi elemen</li>
-                        <li><strong>Padding</strong> — jarak dari content ke border</li>
+                        <li><strong>Padding</strong> — jarak dalam</li>
                         <li><strong>Border</strong> — garis tepi</li>
-                        <li><strong>Margin</strong> — jarak dari border ke elemen luar</li>
+                        <li><strong>Margin</strong> — jarak luar</li>
                     </ul>
                     <div class="code-block">
-<span class="keyword">.kotak</span> {
-    <span class="attr">width</span>: <span class="value">200px</span>;
-    <span class="attr">padding</span>: <span class="value">20px</span>;
-    <span class="attr">border</span>: <span class="value">2px solid black</span>;
-    <span class="attr">margin</span>: <span class="value">10px</span>;
+.kotak {
+    width: 200px;
+    padding: 20px;
+    border: 2px solid black;
+    margin: 10px;
 }
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat 3 kotak dengan warna berbeda, atur padding dan margin-nya.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat class <strong>.kotak</strong> dengan width 200px, padding 20px, dan border 2px solid black.",
+                    hint: "Gunakan selector .kotak { width: 200px; padding: 20px; border: 2px solid black; }",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('.kotak'), msg: 'Gunakan selector <code>.kotak</code>' },
+                            { ok: c.includes('width: 200px'), msg: 'width harus 200px' },
+                            { ok: c.includes('padding: 20px'), msg: 'padding harus 20px' },
+                            { ok: c.includes('border: 2px solid black'), msg: 'border harus 2px solid black' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Bagus! Box model sudah kamu pahami. 📦' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 18, phase: 3, title: "Flexbox — Layout Modern",
                 desc: "Layout paling populer untuk mengatur posisi elemen.",
                 material: `
-                    <h3>Flexbox Dasar</h3>
+                    <h3>📖 Flexbox Dasar</h3>
                     <div class="code-block">
-<span class="keyword">.container</span> {
-    <span class="attr">display</span>: <span class="value">flex</span>;
-    <span class="attr">justify-content</span>: <span class="value">center</span>;  <span class="comment">/* horizontal */</span>
-    <span class="attr">align-items</span>: <span class="value">center</span>;      <span class="comment">/* vertical */</span>
-    <span class="attr">gap</span>: <span class="value">20px</span>;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
                     </div>
-                    <h3>Nilai justify-content</h3>
-                    <ul>
-                        <li><code>flex-start</code> — rapat kiri</li>
-                        <li><code>center</code> — tengah</li>
-                        <li><code>flex-end</code> — rapat kanan</li>
-                        <li><code>space-between</code> — spasi rata</li>
-                        <li><code>space-around</code> — spasi sekeliling</li>
-                    </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat navbar sederhana dengan logo di kiri dan menu di kanan pakai flexbox.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat class <strong>.container</strong> dengan display flex, justify-content center, dan gap 20px.",
+                    hint: "Gunakan .container { display: flex; justify-content: center; gap: 20px; }",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('.container'), msg: 'Gunakan selector <code>.container</code>' },
+                            { ok: c.includes('display: flex'), msg: 'Tambahkan display: flex' },
+                            { ok: c.includes('justify-content: center'), msg: 'Tambahkan justify-content: center' },
+                            { ok: c.includes('gap: 20px'), msg: 'Tambahkan gap: 20px' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Keren! Flexbox sudah kamu kuasai. 🧩' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 19, phase: 3, title: "CSS Grid",
                 desc: "Layout dua dimensi dengan baris dan kolom.",
                 material: `
-                    <h3>CSS Grid</h3>
+                    <h3>📖 CSS Grid</h3>
                     <div class="code-block">
-<span class="keyword">.grid</span> {
-    <span class="attr">display</span>: <span class="value">grid</span>;
-    <span class="attr">grid-template-columns</span>: <span class="value">repeat(3, 1fr)</span>;
-    <span class="attr">gap</span>: <span class="value">20px</span>;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
                     </div>
-                    <h3>Grid vs Flexbox</h3>
-                    <ul>
-                        <li><strong>Flexbox</strong> — 1 dimensi (baris ATAU kolom)</li>
-                        <li><strong>Grid</strong> — 2 dimensi (baris DAN kolom)</li>
-                    </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat galeri foto 3x3 menggunakan CSS Grid.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat class <strong>.grid</strong> dengan display grid, 3 kolom sama lebar, dan gap 20px.",
+                    hint: "Gunakan .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('.grid'), msg: 'Gunakan selector <code>.grid</code>' },
+                            { ok: c.includes('display: grid'), msg: 'Tambahkan display: grid' },
+                            { ok: c.includes('grid-template-columns: repeat(3, 1fr)'), msg: 'Tambahkan grid-template-columns: repeat(3, 1fr)' },
+                            { ok: c.includes('gap: 20px'), msg: 'Tambahkan gap: 20px' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! CSS Grid sudah kamu kuasai. 🎨' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 20, phase: 3, title: "Responsive Design",
                 desc: "Buat halaman yang tampil bagus di HP, tablet, dan desktop.",
                 material: `
-                    <h3>Media Query</h3>
+                    <h3>📖 Media Query</h3>
                     <div class="code-block">
-<span class="keyword">@media</span> (max-width: 768px) {
-    <span class="keyword">.container</span> {
-        <span class="attr">flex-direction</span>: <span class="value">column</span>;
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
     }
 }
                     </div>
-                    <h3>Mobile-First</h3>
-                    <p>Tulis CSS untuk mobile dulu, lalu tambahkan media query untuk layar besar.</p>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat halaman dengan 3 kolom di desktop, tapi jadi 1 kolom di HP.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat media query untuk max-width 768px yang mengubah .container menjadi flex-direction column.",
+                    hint: "Gunakan @media (max-width: 768px) { .container { flex-direction: column; } }",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('@media'), msg: 'Gunakan <code>@media</code>' },
+                            { ok: c.includes('max-width: 768px'), msg: 'Gunakan max-width: 768px' },
+                            { ok: c.includes('.container'), msg: 'Target .container' },
+                            { ok: c.includes('flex-direction: column'), msg: 'Set flex-direction: column' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Hebat! Responsive design sudah kamu kuasai. 📱' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 21, phase: 3, title: "Project Mini: Landing Page",
                 desc: "Buat landing page responsif dengan style modern.",
                 material: `
-                    <h3>Landing Page</h3>
-                    <p>Gabungkan HTML + CSS untuk membuat landing page produk/jasa:</p>
+                    <h3>🎯 Project: Landing Page</h3>
+                    <p>Buat landing page dengan:</p>
                     <ul>
                         <li>Hero section dengan judul besar</li>
                         <li>Section fitur (3 kolom)</li>
-                        <li>Section testimoni</li>
-                        <li>CTA (Call to Action)</li>
                         <li>Footer</li>
                     </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Project:</strong>
-                        <p>Buat <code>landing.html</code> dengan semua elemen di atas. Ini project portofolio pertamamu!</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat struktur landing page: &lt;header&gt; dengan h1 \"Produk Saya\", &lt;main&gt; dengan 3 paragraf fitur, dan &lt;footer&gt;.",
+                    hint: "Gunakan &lt;header&gt;, &lt;main&gt;, &lt;footer&gt; dengan 3 &lt;p&gt; di main.",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<header'), msg: 'Tambahkan <code>&lt;header&gt;</code>' },
+                            { ok: c.includes('produk saya'), msg: 'Header berisi "Produk Saya"' },
+                            { ok: c.includes('<main'), msg: 'Tambahkan <code>&lt;main&gt;</code>' },
+                            { ok: (c.match(/<p/g) || []).length >= 3, msg: 'Minimal 3 paragraf fitur' },
+                            { ok: c.includes('<footer'), msg: 'Tambahkan <code>&lt;footer&gt;</code>' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Luar biasa! Landing page kamu sudah selesai. 🚀' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
 
             // ===== FASE 4: INTERAKTIF (Hari 22-30) =====
@@ -1215,216 +1670,286 @@
                 day: 22, phase: 4, title: "Pengenalan JavaScript",
                 desc: "Bahasa pemrograman untuk membuat halaman interaktif.",
                 material: `
-                    <h3>Apa itu JavaScript?</h3>
-                    <p>JavaScript membuat halaman web "hidup" — bisa merespons klik, mengubah konten, dan berkomunikasi dengan server.</p>
-                    <h3>Cara Memasang JS</h3>
+                    <h3>📖 Apa itu JavaScript?</h3>
+                    <p>JavaScript membuat halaman web "hidup" — bisa merespons klik, mengubah konten, dll.</p>
                     <div class="code-block">
-<span class="tag">&lt;script&gt;</span>
-    <span class="keyword">console</span>.log(<span class="string">"Halo Dunia!"</span>);
-<span class="tag">&lt;/script&gt;</span>
+&lt;script&gt;
+    console.log("Halo Dunia!");
+&lt;/script&gt;
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat file HTML, tambahkan script yang menampilkan alert "Selamat Datang!".</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat tag &lt;script&gt; yang menampilkan <strong>console.log(\"Selamat Datang!\")</strong>.",
+                    hint: "Gunakan &lt;script&gt;console.log(&quot;Selamat Datang!&quot;);&lt;/script&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('<script'), msg: 'Tambahkan <code>&lt;script&gt;</code>' },
+                            { ok: c.includes('console.log'), msg: 'Gunakan <code>console.log</code>' },
+                            { ok: c.includes('selamat datang!'), msg: 'Isi harus "Selamat Datang!"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Selamat! Kamu sudah menulis JavaScript pertamamu. 🎉' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 23, phase: 4, title: "Variabel & Tipe Data",
                 desc: "Menyimpan nilai dalam variabel.",
                 material: `
-                    <h3>Deklarasi Variabel</h3>
+                    <h3>📖 Deklarasi Variabel</h3>
                     <div class="code-block">
-<span class="keyword">let</span> nama = <span class="string">"Budi"</span>;
-<span class="keyword">const</span> umur = <span class="value">25</span>;
-<span class="keyword">var</span> kota = <span class="string">"Jakarta"</span>;
+let nama = "Budi";
+const umur = 25;
+var kota = "Jakarta";
                     </div>
-                    <h3>Tipe Data</h3>
-                    <ul>
-                        <li><strong>String</strong> — teks: <code>"halo"</code></li>
-                        <li><strong>Number</strong> — angka: <code>25</code></li>
-                        <li><strong>Boolean</strong> — <code>true</code> / <code>false</code></li>
-                        <li><strong>Array</strong> — <code>[1, 2, 3]</code></li>
-                        <li><strong>Object</strong> — <code>{nama: "Budi"}</code></li>
-                    </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat variabel berisi nama, umur, dan hobi (array). Tampilkan di console.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat 3 variabel: nama (let) = \"Budi\", umur (const) = 25, dan hobi (let) = [\"membaca\", \"coding\"].",
+                    hint: "Gunakan let nama = &quot;Budi&quot;; const umur = 25; let hobi = [&quot;membaca&quot;, &quot;coding&quot;];",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('let nama'), msg: 'Deklarasi <code>let nama</code>' },
+                            { ok: c.includes('"budi"') || c.includes("'budi'"), msg: 'Nilai nama harus "Budi"' },
+                            { ok: c.includes('const umur'), msg: 'Deklarasi <code>const umur</code>' },
+                            { ok: c.includes('25'), msg: 'Nilai umur harus 25' },
+                            { ok: c.includes('let hobi'), msg: 'Deklarasi <code>let hobi</code>' },
+                            { ok: c.includes('[') && c.includes(']'), msg: 'Hobi harus array [...]' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Keren! Variabel sudah kamu kuasai. 📦' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 24, phase: 4, title: "Fungsi JavaScript",
                 desc: "Blok kode yang bisa dipanggil berulang kali.",
                 material: `
-                    <h3>Deklarasi Fungsi</h3>
+                    <h3>📖 Deklarasi Fungsi</h3>
                     <div class="code-block">
-<span class="keyword">function</span> <span class="attr">sapa</span>(nama) {
-    <span class="keyword">return</span> <span class="string">"Halo, "</span> + nama + <span class="string">"!"</span>;
+function sapa(nama) {
+    return "Halo, " + nama + "!";
 }
-<span class="keyword">console</span>.log(sapa(<span class="string">"Budi"</span>));
+console.log(sapa("Budi"));
                     </div>
-                    <h3>Arrow Function</h3>
-                    <div class="code-block">
-<span class="keyword">const</span> <span class="attr">kali</span> = (a, b) => a * b;
-<span class="keyword">console</span>.log(kali(<span class="value">3</span>, <span class="value">4</span>));  <span class="comment">// 12</span>
-                    </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat fungsi <code>hitungLuasPersegi(sisi)</code> yang mengembalikan luas persegi.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat fungsi <strong>kali(a, b)</strong> yang mengembalikan hasil a * b. Panggil dengan (3, 4) dan tampilkan hasilnya.",
+                    hint: "Gunakan function kali(a, b) { return a * b; } console.log(kali(3, 4));",
+                    validator: function(code) {
+                        const c = code.toLowerCase().replace(/\s+/g, ' ');
+                        const checks = [
+                            { ok: c.includes('function kali'), msg: 'Deklarasi <code>function kali</code>' },
+                            { ok: c.includes('a') && c.includes('b'), msg: 'Parameter a dan b' },
+                            { ok: c.includes('return'), msg: 'Gunakan <code>return</code>' },
+                            { ok: c.includes('kali(3, 4)') || c.includes('kali(3,4)'), msg: 'Panggil dengan (3, 4)' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Hebat! Fungsi sudah kamu kuasai. 🧠' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 25, phase: 4, title: "DOM — Manipulasi HTML",
                 desc: "Ubah konten HTML menggunakan JavaScript.",
                 material: `
-                    <h3>Memilih Elemen</h3>
+                    <h3>📖 Memilih & Mengubah Elemen</h3>
                     <div class="code-block">
-<span class="keyword">const</span> judul = <span class="keyword">document</span>.getElementById(<span class="string">"judul"</span>);
-<span class="keyword">const</span> paragraf = <span class="keyword">document</span>.querySelector(<span class="string">".deskripsi"</span>);
+const judul = document.getElementById("judul");
+judul.textContent = "Judul Baru";
+judul.style.color = "red";
                     </div>
-                    <h3>Mengubah Konten</h3>
-                    <div class="code-block">
-judul.textContent = <span class="string">"Judul Baru"</span>;
-judul.style.color = <span class="string">"red"</span>;
-judul.innerHTML = <span class="string">"&lt;em&gt;Miring&lt;/em&gt;"</span>;
-                    </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat halaman dengan 1 tombol. Saat diklik, ubah teks dan warna judul.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Ambil elemen dengan id <strong>\"judul\"</strong> dan ubah textContent-nya menjadi <strong>\"Halo DOM\"</strong>.",
+                    hint: "Gunakan document.getElementById(&quot;judul&quot;).textContent = &quot;Halo DOM&quot;;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('document.getelementbyid'), msg: 'Gunakan <code>document.getElementById()</code>' },
+                            { ok: c.includes('"judul"') || c.includes("'judul'"), msg: 'Target id "judul"' },
+                            { ok: c.includes('textcontent'), msg: 'Gunakan <code>.textContent</code>' },
+                            { ok: c.includes('halo dom'), msg: 'Ubah textContent menjadi "Halo DOM"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! DOM manipulation sudah kamu kuasai. 🌳' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 26, phase: 4, title: "Event Handling",
                 desc: "Merespons aksi pengguna: klik, hover, submit.",
                 material: `
-                    <h3>addEventListener</h3>
+                    <h3>📖 addEventListener</h3>
                     <div class="code-block">
-<span class="keyword">const</span> btn = <span class="keyword">document</span>.querySelector(<span class="string">"#tombol"</span>);
-btn.addEventListener(<span class="string">"click"</span>, <span class="keyword">function</span>() {
-    <span class="keyword">alert</span>(<span class="string">"Tombol diklik!"</span>);
+const btn = document.querySelector("#tombol");
+btn.addEventListener("click", function() {
+    alert("Tombol diklik!");
 });
                     </div>
-                    <h3>Event Populer</h3>
-                    <ul>
-                        <li><code>click</code> — saat diklik</li>
-                        <li><code>mouseover</code> — saat hover</li>
-                        <li><code>keydown</code> — saat keyboard ditekan</li>
-                        <li><code>submit</code> — saat form dikirim</li>
-                    </ul>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat 3 tombol dengan 3 event berbeda: ubah warna, tampilkan alert, sembunyikan elemen.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Ambil tombol dengan id <strong>\"tombol\"</strong>, tambahkan event <strong>click</strong> yang menampilkan <strong>alert(\"Diklik!\")</strong>.",
+                    hint: "Gunakan document.querySelector(&quot;#tombol&quot;).addEventListener(&quot;click&quot;, () =&gt; alert(&quot;Diklik!&quot;));",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('addeventlistener'), msg: 'Gunakan <code>addEventListener</code>' },
+                            { ok: c.includes('"click"') || c.includes("'click'"), msg: 'Event harus "click"' },
+                            { ok: c.includes('alert('), msg: 'Panggil <code>alert()</code>' },
+                            { ok: c.includes('diklik!'), msg: 'Isi alert harus "Diklik!"' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Bagus! Event handling sudah kamu pahami. 🖱️' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 27, phase: 4, title: "Array & Loop",
                 desc: "Mengelola data banyak dengan array dan perulangan.",
                 material: `
-                    <h3>Array Method</h3>
+                    <h3>📖 Array & forEach</h3>
                     <div class="code-block">
-<span class="keyword">const</span> buah = [<span class="string">"apel"</span>, <span class="string">"jeruk"</span>, <span class="string">"mangga"</span>];
-
-<span class="comment">// Loop</span>
+const buah = ["apel", "jeruk", "mangga"];
 buah.forEach((item) => {
-    <span class="keyword">console</span>.log(item);
+    console.log(item);
 });
-
-<span class="comment">// Map</span>
-<span class="keyword">const</span> panjang = buah.map(b => b.length);
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat array 5 hobimu, tampilkan semuanya ke halaman pakai forEach.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat array <strong>buah</strong> berisi [\"apel\", \"jeruk\", \"mangga\"] dan tampilkan setiap item dengan forEach ke console.log.",
+                    hint: "Gunakan array.forEach((item) =&gt; console.log(item));",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('buah'), msg: 'Buat variabel <code>buah</code>' },
+                            { ok: c.includes('apel'), msg: 'Item "apel"' },
+                            { ok: c.includes('jeruk'), msg: 'Item "jeruk"' },
+                            { ok: c.includes('mangga'), msg: 'Item "mangga"' },
+                            { ok: c.includes('foreach'), msg: 'Gunakan <code>forEach</code>' },
+                            { ok: c.includes('console.log'), msg: 'Gunakan <code>console.log</code>' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Keren! Array & loop sudah kamu kuasai. 🔁' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 28, phase: 4, title: "Fetch API — Ambil Data",
                 desc: "Ambil data dari server menggunakan JavaScript.",
                 material: `
-                    <h3>Fetch API</h3>
+                    <h3>📖 Fetch API</h3>
                     <div class="code-block">
-<span class="keyword">fetch</span>(<span class="string">"https://api.example.com/data"</span>)
+fetch("https://jsonplaceholder.typicode.com/posts/1")
     .then(response => response.json())
-    .then(data => {
-        <span class="keyword">console</span>.log(data);
-    })
-    .catch(error => {
-        <span class="keyword">console</span>.error(error);
-    });
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Ambil data dari API publik (misal: JSONPlaceholder) dan tampilkan judulnya.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Gunakan fetch ke <strong>\"https://jsonplaceholder.typicode.com/posts/1\"</strong>, ubah ke JSON, dan console.log data-nya.",
+                    hint: "fetch(url).then(r =&gt; r.json()).then(d =&gt; console.log(d));",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('fetch('), msg: 'Gunakan <code>fetch()</code>' },
+                            { ok: c.includes('jsonplaceholder.typicode.com'), msg: 'URL harus jsonplaceholder' },
+                            { ok: c.includes('.then'), msg: 'Gunakan <code>.then()</code>' },
+                            { ok: c.includes('.json()'), msg: 'Ubah ke <code>.json()</code>' },
+                            { ok: c.includes('console.log'), msg: 'Tampilkan dengan <code>console.log</code>' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Hebat! Fetch API sudah kamu kuasai. 🌐' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 29, phase: 4, title: "LocalStorage",
                 desc: "Simpan data di browser pengguna.",
                 material: `
-                    <h3>Menyimpan & Mengambil Data</h3>
+                    <h3>📖 LocalStorage</h3>
                     <div class="code-block">
-<span class="comment">// Simpan</span>
-localStorage.setItem(<span class="string">"nama"</span>, <span class="string">"Budi"</span>);
-
-<span class="comment">// Ambil</span>
-<span class="keyword">const</span> nama = localStorage.getItem(<span class="string">"nama"</span>);
-
-<span class="comment">// Hapus</span>
-localStorage.removeItem(<span class="string">"nama"</span>);
+localStorage.setItem("nama", "Budi");
+const nama = localStorage.getItem("nama");
+console.log(nama);
                     </div>
-                    <div class="exercise-box">
-                        <strong>💪 Latihan:</strong>
-                        <p>Buat aplikasi to-do list sederhana yang menyimpan daftar di localStorage.</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Simpan nilai <strong>\"Budi\"</strong> ke localStorage dengan key <strong>\"nama\"</strong>, lalu ambil dan console.log.",
+                    hint: "localStorage.setItem(&quot;nama&quot;, &quot;Budi&quot;); console.log(localStorage.getItem(&quot;nama&quot;));",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('localstorage.setitem'), msg: 'Gunakan <code>localStorage.setItem</code>' },
+                            { ok: c.includes('"nama"') || c.includes("'nama'"), msg: 'Key harus "nama"' },
+                            { ok: c.includes('"budi"') || c.includes("'budi'"), msg: 'Value harus "Budi"' },
+                            { ok: c.includes('localstorage.getitem'), msg: 'Gunakan <code>localStorage.getItem</code>' },
+                            { ok: c.includes('console.log'), msg: 'Tampilkan dengan <code>console.log</code>' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: 'Mantap! LocalStorage sudah kamu kuasai. 💾' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             },
             {
                 day: 30, phase: 4, title: "Project Akhir: Aplikasi To-Do List",
                 desc: "Gabungkan HTML, CSS, dan JavaScript menjadi aplikasi nyata.",
                 material: `
-                    <h3>Aplikasi To-Do List</h3>
-                    <p>Kamu akan membuat aplikasi yang bisa:</p>
+                    <h3>🏆 Project Akhir</h3>
+                    <p>Buat aplikasi To-Do List dengan HTML + JS sederhana:</p>
                     <ul>
-                        <li>Menambah tugas baru</li>
-                        <li>Menandai tugas sebagai selesai</li>
-                        <li>Menghapus tugas</li>
-                        <li>Menyimpan daftar di localStorage</li>
-                        <li>Menampilkan statistik tugas</li>
+                        <li>Input teks untuk menambah tugas</li>
+                        <li>Tombol tambah</li>
+                        <li>Fungsi JavaScript untuk menambah item ke list</li>
                     </ul>
-                    <div class="exercise-box">
-                        <strong>🏆 Project Akhir:</strong>
-                        <p>Buat file <code>todo.html</code> lengkap dengan HTML, CSS, dan JS. Ini adalah pencapaian besar — kamu sudah menyelesaikan 30 hari belajar!</p>
-                    </div>
-                `
+                `,
+                practice: {
+                    task: "Buat struktur To-Do List: input dengan id <strong>\"inputTugas\"</strong>, tombol dengan id <strong>\"btnTambah\"</strong>, dan ul dengan id <strong>\"daftarTugas\"</strong>.",
+                    hint: "Gunakan &lt;input id=&quot;inputTugas&quot;&gt;, &lt;button id=&quot;btnTambah&quot;&gt;Tambah&lt;/button&gt;, &lt;ul id=&quot;daftarTugas&quot;&gt;&lt;/ul&gt;",
+                    validator: function(code) {
+                        const c = code.toLowerCase();
+                        const checks = [
+                            { ok: c.includes('id="inputtugas"') || c.includes("id='inputtugas'"), msg: 'Input harus id="inputTugas"' },
+                            { ok: c.includes('id="btntambah"') || c.includes("id='btntambah'"), msg: 'Tombol harus id="btnTambah"' },
+                            { ok: c.includes('id="daftartugas"') || c.includes("id='daftartugas'"), msg: 'UL harus id="daftarTugas"' },
+                            { ok: c.includes('<ul'), msg: 'Gunakan <code>&lt;ul&gt;</code>' }
+                        ];
+                        const failed = checks.filter(x => !x.ok);
+                        if (failed.length === 0) return { success: true, msg: '🎉 SELAMAT! Kamu telah menyelesaikan 30 hari belajar HTML! Kamu luar biasa!' };
+                        return { success: false, msg: failed[0].msg };
+                    }
+                }
             }
         ];
 
         // ============================================================
-        // STATE & LOCALSTORAGE
+        // STATE & STORAGE
         // ============================================================
         const STORAGE_KEY = 'belajar_html_progress';
+        const DRAFT_KEY = 'belajar_html_draft_';
 
         function loadProgress() {
             try {
                 const data = localStorage.getItem(STORAGE_KEY);
-                return data ? JSON.parse(data) : { completedDays: [], lastVisit: null };
+                return data ? JSON.parse(data) : { completedDays: [] };
             } catch (e) {
-                return { completedDays: [], lastVisit: null };
+                return { completedDays: [] };
             }
         }
 
         function saveProgress(progress) {
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-            } catch (e) {
-                console.warn('Gagal menyimpan progress:', e);
-            }
+            } catch (e) {}
         }
 
         let progress = loadProgress();
@@ -1454,12 +1979,7 @@ localStorage.removeItem(<span class="string">"nama"</span>);
                 card.setAttribute('data-phase', item.phase);
                 card.style.animationDelay = `${index * 0.05}s`;
 
-                const phaseName = {
-                    1: 'Pemula',
-                    2: 'Menengah',
-                    3: 'Mahir',
-                    4: 'Expert'
-                }[item.phase];
+                const phaseName = { 1: 'Pemula', 2: 'Menengah', 3: 'Mahir', 4: 'Expert' }[item.phase];
 
                 card.innerHTML = `
                     <div class="day-header">
@@ -1491,7 +2011,6 @@ localStorage.removeItem(<span class="string">"nama"</span>);
             document.getElementById('statDays').textContent = completed;
             document.getElementById('statMinutes').textContent = minutes;
 
-            // Level
             let level = 'Pemula';
             if (completed >= 25) level = 'Expert';
             else if (completed >= 18) level = 'Mahir';
@@ -1499,7 +2018,6 @@ localStorage.removeItem(<span class="string">"nama"</span>);
             else if (completed >= 3) level = 'Pemula+';
             document.getElementById('statLevel').textContent = level;
 
-            // Streak (sederhana: hitung hari selesai berturut-turut dari hari 1)
             let streak = 0;
             for (let i = 1; i <= totalDays; i++) {
                 if (progress.completedDays.includes(i)) streak++;
@@ -1525,7 +2043,6 @@ localStorage.removeItem(<span class="string">"nama"</span>);
             const idx = progress.completedDays.indexOf(day);
             if (idx === -1) {
                 progress.completedDays.push(day);
-                progress.lastVisit = new Date().toISOString();
             } else {
                 progress.completedDays.splice(idx, 1);
             }
@@ -1539,6 +2056,8 @@ localStorage.removeItem(<span class="string">"nama"</span>);
             if (!item) return;
 
             const modal = document.getElementById('modalContent');
+            const savedDraft = localStorage.getItem(DRAFT_KEY + day) || '';
+
             modal.innerHTML = `
                 <button class="modal-close" onclick="closeModal()">
                     <i class="fas fa-times"></i>
@@ -1550,6 +2069,48 @@ localStorage.removeItem(<span class="string">"nama"</span>);
                 <p class="modal-subtitle">${item.desc}</p>
                 <div class="modal-body">
                     ${item.material}
+
+                    ${item.practice ? `
+                        <div class="practice-section">
+                            <div class="practice-title">
+                                <i class="fas fa-keyboard"></i> Latihan Mengetik Kode
+                            </div>
+                            <p class="practice-task">${item.practice.task}</p>
+
+                            <div class="editor-label">
+                                <span><i class="fas fa-code"></i> Tulis kodemu di sini:</span>
+                                <span id="charCount_${day}">0 karakter</span>
+                            </div>
+                            <textarea 
+                                class="code-editor" 
+                                id="editor_${day}"
+                                spellcheck="false"
+                                placeholder="<-- Ketik kode HTML kamu di sini... -->"
+                                oninput="updateCharCount(${day})"
+                            >${savedDraft}</textarea>
+
+                            <div class="editor-actions">
+                                <button class="btn btn-check" onclick="checkAnswer(${day})">
+                                    <i class="fas fa-check-circle"></i> Periksa Jawaban
+                                </button>
+                                <button class="btn btn-hint" onclick="showHint(${day})">
+                                    <i class="fas fa-lightbulb"></i> Bantuan
+                                </button>
+                                <button class="btn btn-reset" onclick="resetEditor(${day})">
+                                    <i class="fas fa-redo"></i> Reset
+                                </button>
+                            </div>
+
+                            <div class="feedback-box" id="feedback_${day}"></div>
+
+                            <div class="preview-label" style="margin-top:14px;">
+                                <i class="fas fa-eye"></i> Preview:
+                            </div>
+                            <div class="preview-box" id="preview_${day}">
+                                <em style="color:#999;">Preview akan muncul di sini setelah kamu klik Periksa.</em>
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
                 <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;">
                     <button class="btn btn-success" onclick="toggleComplete(${item.day}); closeModal();">
@@ -1563,11 +2124,84 @@ localStorage.removeItem(<span class="string">"nama"</span>);
 
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            // Auto-save saat user mengetik
+            const editor = document.getElementById(`editor_${day}`);
+            if (editor) {
+                editor.addEventListener('input', () => {
+                    localStorage.setItem(DRAFT_KEY + day, editor.value);
+                });
+                updateCharCount(day);
+            }
         }
 
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('active');
             document.body.style.overflow = '';
+        }
+
+        // ============================================================
+        // EDITOR FUNCTIONS
+        // ============================================================
+        function updateCharCount(day) {
+            const editor = document.getElementById(`editor_${day}`);
+            const counter = document.getElementById(`charCount_${day}`);
+            if (editor && counter) {
+                counter.textContent = editor.value.length + ' karakter';
+            }
+        }
+
+        function checkAnswer(day) {
+            const item = curriculum.find(d => d.day === day);
+            if (!item || !item.practice) return;
+
+            const editor = document.getElementById(`editor_${day}`);
+            const feedback = document.getElementById(`feedback_${day}`);
+            const preview = document.getElementById(`preview_${day}`);
+
+            const code = editor.value.trim();
+
+            if (!code) {
+                feedback.className = 'feedback-box error show';
+                feedback.innerHTML = '<strong><i class="fas fa-exclamation-circle"></i> Kosong!</strong> Tulis dulu kode kamu sebelum memeriksa.';
+                return;
+            }
+
+            const result = item.practice.validator(code);
+
+            if (result.success) {
+                feedback.className = 'feedback-box success show';
+                feedback.innerHTML = `<strong><i class="fas fa-check-circle"></i> Berhasil!</strong> ${result.msg}`;
+                // Render preview
+                preview.innerHTML = code;
+            } else {
+                feedback.className = 'feedback-box error show';
+                feedback.innerHTML = `<strong><i class="fas fa-times-circle"></i> Belum Tepat</strong> ${result.msg}<br><small>💡 Klik tombol <strong>Bantuan</strong> kalau bingung.</small>`;
+                // Preview tetap tampil apa adanya untuk debugging
+                preview.innerHTML = code;
+            }
+        }
+
+        function showHint(day) {
+            const item = curriculum.find(d => d.day === day);
+            if (!item || !item.practice) return;
+
+            const feedback = document.getElementById(`feedback_${day}`);
+            feedback.className = 'feedback-box hint show';
+            feedback.innerHTML = `<strong><i class="fas fa-lightbulb"></i> Petunjuk</strong> ${item.practice.hint}`;
+        }
+
+        function resetEditor(day) {
+            const editor = document.getElementById(`editor_${day}`);
+            const feedback = document.getElementById(`feedback_${day}`);
+            const preview = document.getElementById(`preview_${day}`);
+            if (editor) {
+                editor.value = '';
+                localStorage.removeItem(DRAFT_KEY + day);
+                updateCharCount(day);
+            }
+            if (feedback) feedback.className = 'feedback-box';
+            if (preview) preview.innerHTML = '<em style="color:#999;">Preview akan muncul di sini setelah kamu klik Periksa.</em>';
         }
 
         // ============================================================
@@ -1604,12 +2238,21 @@ localStorage.removeItem(<span class="string">"nama"</span>);
                 if (e.target === this) closeModal();
             });
 
-            // ESC close
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeModal();
             });
 
-            // Initial render
+            // Tab key di editor → insert 2 spaces
+            document.addEventListener('keydown', function(e) {
+                if (e.target.classList && e.target.classList.contains('code-editor') && e.key === 'Tab') {
+                    e.preventDefault();
+                    const start = e.target.selectionStart;
+                    const end = e.target.selectionEnd;
+                    e.target.value = e.target.value.substring(0, start) + '  ' + e.target.value.substring(end);
+                    e.target.selectionStart = e.target.selectionEnd = start + 2;
+                }
+            });
+
             render();
         });
     </script>
