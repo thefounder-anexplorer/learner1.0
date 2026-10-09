@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar HTML Harian — 5 Menit Sehari, Mahir dalam 30 Hari</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #1abc9c;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --purple: #9b59b6;
+            --dark: #1a252f;
+            --light: #ecf0f1;
+            --bg: #f0f4f8;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --text-muted: #7f8c8d;
+            --border: #e1e8ed;
+            --gradient-1: linear-gradient(135deg, #2c3e50, #1a252f);
+            --gradient-2: linear-gradient(135deg, #3498db, #2980b9);
+            --gradient-3: linear-gradient(135deg, #1abc9c, #16a085);
+            --gradient-4: linear-gradient(135deg, #9b59b6, #8e44ad);
+            --gradient-5: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            --bg: #0f1720;
+            --card: #1a2733;
+            --text: #ecf0f1;
+            --text-muted: #95a5a6;
+            --border: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            padding: 40px 30px;
+            margin-bottom: 30px;
+            background: var(--gradient-1);
+            color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(44, 62, 80, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 50%;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        header .back-link {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            color: #fff;
+            font-size: 0.95rem;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+
+        header .back-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-3px);
+        }
+
+        header .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 2;
+            font-size: 1rem;
+        }
+
+        header .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(20deg);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 i {
+            margin-right: 12px;
+            color: #f1c40f;
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            opacity: 0.92;
+            max-width: 700px;
+            margin: 0 auto 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== PROGRESS BAR GLOBAL ===== */
+        .progress-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.15);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2ecc71, #1abc9c);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== PHASE FILTER ===== */
+        .phase-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .phase-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .phase-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .phase-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .phase-btn[data-phase="1"] { border-left: 4px solid #2ecc71; }
+        .phase-btn[data-phase="2"] { border-left: 4px solid #3498db; }
+        .phase-btn[data-phase="3"] { border-left: 4px solid #9b59b6; }
+        .phase-btn[data-phase="4"] { border-left: 4px solid #e74c3c; }
+
+        /* ===== DAY LIST ===== */
+        .day-list {
+            display: grid;
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .day-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--secondary);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .day-card.completed {
+            opacity: 0.7;
+            border-left-color: var(--success);
+            background: linear-gradient(to right, rgba(46, 204, 113, 0.05), var(--card));
+        }
+
+        .day-card.completed::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 22px;
+            color: var(--success);
+            font-size: 1.4rem;
+        }
+
+        .day-card[data-phase="1"] { border-left-color: #2ecc71; }
+        .day-card[data-phase="2"] { border-left-color: #3498db; }
+        .day-card[data-phase="3"] { border-left-color: #9b59b6; }
+        .day-card[data-phase="4"] { border-left-color: #e74c3c; }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .day-number {
+            background: var(--primary);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .day-card.completed .day-number {
+            background: var(--success);
+        }
+
+        .day-title {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .day-badge {
+            font-size: 0.7rem;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .day-badge.phase-1 { background: #d5f5e3; color: #1e8449; }
+        .day-badge.phase-2 { background: #d6eaf8; color: #1f618d; }
+        .day-badge.phase-3 { background: #e8daef; color: #6c3483; }
+        .day-badge.phase-4 { background: #fadbd8; color: #a93226; }
+
+        body.dark .day-badge.phase-1 { background: #1e8449; color: #d5f5e3; }
+        body.dark .day-badge.phase-2 { background: #1f618d; color: #d6eaf8; }
+        body.dark .day-badge.phase-3 { background: #6c3483; color: #e8daef; }
+        body.dark .day-badge.phase-4 { background: #a93226; color: #fadbd8; }
+
+        .day-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .day-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-2);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-success {
+            background: var(--gradient-3);
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(26, 188, 156, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-outline:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+        }
+
+        body.dark .btn-outline:hover {
+            background: #2c3e50;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--light);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        body.dark .modal h2 {
+            color: #fff;
+        }
+
+        .modal .modal-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .modal h3 {
+            font-size: 1.15rem;
+            margin: 20px 0 10px;
+            color: var(--secondary);
+        }
+
+        .modal p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .modal ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal ul li {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .code-block {
+            background: #1e2a35;
+            color: #ecf0f1;
+            padding: 16px 20px;
+            border-radius: 10px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 10px 0 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .code-block .tag { color: #e74c3c; }
+        .code-block .attr { color: #f39c12; }
+        .code-block .value { color: #2ecc71; }
+        .code-block .comment { color: #7f8c8d; font-style: italic; }
+        .code-block .keyword { color: #9b59b6; }
+        .code-block .string { color: #1abc9c; }
+
+        .preview-box {
+            background: #fff;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0 15px;
+            color: #2c3e50;
+        }
+
+        .exercise-box {
+            background: linear-gradient(135deg, #fff9e6, #fef5e7);
+            border-left: 4px solid var(--warning);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        body.dark .exercise-box {
+            background: linear-gradient(135deg, #3d3416, #2c2510);
+            color: #f1c40f;
+        }
+
+        .exercise-box strong {
+            color: var(--warning);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+            header { padding: 30px 20px; }
+            header .back-link,
+            header .theme-toggle {
+                position: relative;
+                top: 0;
+                left: 0;
+                right: 0;
+                margin: 0 5px 10px 0;
+                display: inline-block;
+            }
+            .day-actions { flex-direction: column; }
+            .day-actions .btn { width: 100%; justify-content: center; }
+            .modal { padding: 22px 18px; }
+            .day-badge { margin-left: 0; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.6rem; }
+            .stat-card { padding: 15px; }
+            .stat-card .stat-value { font-size: 1.4rem; }
+        }
+
+        /* ===== ANIMASI ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-card {
+            animation: fadeInUp 0.4s ease backwards;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(52, 152, 219, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(52, 152, 219, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header>
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Portal
+            </a>
+            <button class="theme-toggle" id="themeToggle" title="Ganti Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <h1><i class="fas fa-code"></i> Belajar HTML Harian</h1>
+            <p class="subtitle">5 Menit Sehari — Dari Pemula hingga Mahir dalam 30 Hari</p>
+
+            <div class="progress-wrapper">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-label">
+                    <span id="progressText">0 dari 30 hari selesai</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== STATS ===== -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-value" id="statDays">0</div>
+                <div class="stat-label">Hari Selesai</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="statStreak">0</div>
+                <div class="stat-label">Streak Beruntun</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value" id="statMinutes">0</div>
+                <div class="stat-label">Menit Belajar</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value" id="statLevel">Pemula</div>
+                <div class="stat-label">Level Kamu</div>
+            </div>
+        </div>
+
+        <!-- ===== PHASE FILTER ===== -->
+        <div class="phase-filter">
+            <button class="phase-btn active" data-phase="all">
+                <i class="fas fa-layer-group"></i> Semua
+            </button>
+            <button class="phase-btn" data-phase="1">
+                <i class="fas fa-seedling"></i> Fase 1 — Dasar
+            </button>
+            <button class="phase-btn" data-phase="2">
+                <i class="fas fa-cubes"></i> Fase 2 — Struktur
+            </button>
+            <button class="phase-btn" data-phase="3">
+                <i class="fas fa-palette"></i> Fase 3 — Styling
+            </button>
+            <button class="phase-btn" data-phase="4">
+                <i class="fas fa-rocket"></i> Fase 4 — Interaktif
+            </button>
+        </div>
+
+        <!-- ===== DAY LIST ===== -->
+        <div class="day-list" id="dayList">
+            <!-- Kartu hari akan di-generate oleh JavaScript -->
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer>
+            <div class="footer-logo"><i class="fas fa-code"></i></div>
+            <h3>Belajar HTML Harian</h3>
+            <p class="footer-text">5 menit sehari, konsisten setiap hari, sampai kamu mahir. 💪</p>
+        </footer>
+    </div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent">
+            <!-- Konten modal di-generate JS -->
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // KURIKULUM 30 HARI BELAJAR HTML
+        // ============================================================
+        const curriculum = [
+            // ===== FASE 1: DASAR (Hari 1-7) =====
+            {
+                day: 1, phase: 1, title: "Pengenalan HTML & Struktur Dasar",
+                desc: "Kenalan dengan HTML, cara kerja browser, dan struktur dasar halaman web.",
+                material: `
+                    <h3>Apa itu HTML?</h3>
+                    <p>HTML (HyperText Markup Language) adalah bahasa yang digunakan untuk membuat struktur halaman web. Bayangkan HTML sebagai <em>kerangka</em> dari rumah — tanpa itu, rumah tidak berdiri.</p>
+                    <h3>Struktur Dasar</h3>
+                    <p>Setiap halaman HTML memiliki struktur dasar seperti ini:</p>
+                    <div class="code-block">
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Judul Halaman<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="comment">&lt;!-- Konten halaman di sini --&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span>
+                    </div>
+                    <p>Setiap tag HTML memiliki pasangan buka dan tutup. Tag pembuka seperti <code>&lt;p&gt;</code>, tag penutup seperti <code>&lt;/p&gt;</code>.</p>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan 5 Menit:</strong>
+                        <p>Buat file <code>latihan.html</code>, tulis struktur dasar HTML, dan isi judul dengan namamu. Buka di browser dan lihat hasilnya.</p>
+                    </div>
+                `
+            },
+            {
+                day: 2, phase: 1, title: "Tag Teks: Heading & Paragraf",
+                desc: "Belajar tag heading (h1-h6) dan paragraf untuk menulis konten.",
+                material: `
+                    <h3>Tag Heading</h3>
+                    <p>HTML memiliki 6 level heading, dari <code>&lt;h1&gt;</code> yang paling besar hingga <code>&lt;h6&gt;</code> yang paling kecil.</p>
+                    <div class="code-block">
+<span class="tag">&lt;h1&gt;</span>Judul Utama<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span>Sub Judul<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span>Sub Sub Judul<span class="tag">&lt;/h3&gt;</span>
+                    </div>
+                    <h3>Paragraf</h3>
+                    <p>Tag <code>&lt;p&gt;</code> digunakan untuk membuat paragraf teks.</p>
+                    <div class="code-block">
+<span class="tag">&lt;p&gt;</span>Ini adalah paragraf pertama saya.<span class="tag">&lt;/p&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat halaman dengan 1 heading utama (h1), 2 sub-heading (h2), dan 3 paragraf yang menceritakan hobi kamu.</p>
+                    </div>
+                `
+            },
+            {
+                day: 3, phase: 1, title: "Memformat Teks: Bold, Italic, Underline",
+                desc: "Gunakan tag formatting untuk menekankan teks penting.",
+                material: `
+                    <h3>Tag Formatting Teks</h3>
+                    <ul>
+                        <li><code>&lt;b&gt;</code> atau <code>&lt;strong&gt;</code> — <strong>teks tebal</strong></li>
+                        <li><code>&lt;i&gt;</code> atau <code>&lt;em&gt;</code> — <em>teks miring</em></li>
+                        <li><code>&lt;u&gt;</code> — <u>teks bergaris bawah</u></li>
+                        <li><code>&lt;mark&gt;</code> — <mark>teks tersorot</mark></li>
+                        <li><code>&lt;small&gt;</code> — <small>teks kecil</small></li>
+                        <li><code>&lt;del&gt;</code> — <del>teks dicoret</del></li>
+                    </ul>
+                    <div class="code-block">
+<span class="tag">&lt;p&gt;</span>Ini <span class="tag">&lt;strong&gt;</span>penting<span class="tag">&lt;/strong&gt;</span> dan ini <span class="tag">&lt;em&gt;</span>penekanan<span class="tag">&lt;/em&gt;</span>.<span class="tag">&lt;/p&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Tulis satu paragraf tentang dirimu, gunakan minimal 3 tag formatting berbeda.</p>
+                    </div>
+                `
+            },
+            {
+                day: 4, phase: 1, title: "Membuat Link (Hyperlink)",
+                desc: "Menghubungkan halaman satu dengan halaman lain menggunakan tag <a>.",
+                material: `
+                    <h3>Tag Link</h3>
+                    <p>Tag <code>&lt;a&gt;</code> (anchor) digunakan untuk membuat link ke halaman lain.</p>
+                    <div class="code-block">
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"https://google.com"</span><span class="tag">&gt;</span>Kunjungi Google<span class="tag">&lt;/a&gt;</span>
+                    </div>
+                    <h3>Atribut Penting</h3>
+                    <ul>
+                        <li><code>href</code> — alamat tujuan link</li>
+                        <li><code>target="_blank"</code> — buka di tab baru</li>
+                        <li><code>title</code> — tooltip saat hover</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat 3 link: ke Google, YouTube, dan halaman favoritmu. Salah satunya buka di tab baru.</p>
+                    </div>
+                `
+            },
+            {
+                day: 5, phase: 1, title: "Menampilkan Gambar",
+                desc: "Sisipkan gambar ke halaman web dengan tag <img>.",
+                material: `
+                    <h3>Tag Gambar</h3>
+                    <p>Tag <code>&lt;img&gt;</code> adalah tag yang tidak butuh penutup (self-closing).</p>
+                    <div class="code-block">
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="value">"gambar.jpg"</span> <span class="attr">alt</span>=<span class="value">"Deskripsi"</span><span class="tag">&gt;</span>
+                    </div>
+                    <h3>Atribut Penting</h3>
+                    <ul>
+                        <li><code>src</code> — lokasi file gambar</li>
+                        <li><code>alt</code> — teks alternatif jika gambar gagal dimuat</li>
+                        <li><code>width</code> / <code>height</code> — ukuran gambar</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Tampilkan 3 gambar dari internet (cari URL gambar bebas pakai) dengan alt dan lebar 200px.</p>
+                    </div>
+                `
+            },
+            {
+                day: 6, phase: 1, title: "Membuat List (Bullet & Numbering)",
+                desc: "Membuat daftar dengan unordered list dan ordered list.",
+                material: `
+                    <h3>Unordered List (Bullet)</h3>
+                    <div class="code-block">
+<span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Item 1<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Item 2<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+                    </div>
+                    <h3>Ordered List (Angka)</h3>
+                    <div class="code-block">
+<span class="tag">&lt;ol&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Langkah 1<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Langkah 2<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat 2 list: (1) Bullet berisi 5 makanan favorit, (2) Numbering berisi 5 langkah membuat kopi.</p>
+                    </div>
+                `
+            },
+            {
+                day: 7, phase: 1, title: "Tabel Sederhana",
+                desc: "Buat tabel dengan baris dan kolom untuk data terstruktur.",
+                material: `
+                    <h3>Struktur Tabel</h3>
+                    <div class="code-block">
+<span class="tag">&lt;table&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>  <span class="comment">&lt;!-- table row --&gt;</span>
+        <span class="tag">&lt;th&gt;</span>Nama<span class="tag">&lt;/th&gt;</span>  <span class="comment">&lt;!-- header --&gt;</span>
+        <span class="tag">&lt;th&gt;</span>Umur<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+        <span class="tag">&lt;td&gt;</span>Budi<span class="tag">&lt;/td&gt;</span>  <span class="comment">&lt;!-- data --&gt;</span>
+        <span class="tag">&lt;td&gt;</span>25<span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat tabel daftar 5 temanmu: kolom Nama, Umur, dan Hobi.</p>
+                    </div>
+                `
+            },
+
+            // ===== FASE 2: STRUKTUR (Hari 8-14) =====
+            {
+                day: 8, phase: 2, title: "Form & Input",
+                desc: "Membuat form untuk menerima input dari pengguna.",
+                material: `
+                    <h3>Form Dasar</h3>
+                    <div class="code-block">
+<span class="tag">&lt;form&gt;</span>
+    <span class="tag">&lt;label&gt;</span>Nama:<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="value">"text"</span> <span class="attr">name</span>=<span class="value">"nama"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="value">"submit"</span><span class="tag">&gt;</span>Kirim<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+                    </div>
+                    <h3>Jenis Input</h3>
+                    <ul>
+                        <li><code>text</code> — teks biasa</li>
+                        <li><code>email</code> — email</li>
+                        <li><code>password</code> — password</li>
+                        <li><code>number</code> — angka</li>
+                        <li><code>checkbox</code> — kotak centang</li>
+                        <li><code>radio</code> — pilihan tunggal</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat form pendaftaran dengan: nama, email, password, tanggal lahir, dan tombol submit.</p>
+                    </div>
+                `
+            },
+            {
+                day: 9, phase: 2, title: "Semantic HTML",
+                desc: "Gunakan tag semantic untuk struktur yang lebih bermakna.",
+                material: `
+                    <h3>Tag Semantic</h3>
+                    <p>Tag semantic memberi makna pada struktur halaman, membantu SEO dan aksesibilitas.</p>
+                    <ul>
+                        <li><code>&lt;header&gt;</code> — bagian kepala halaman</li>
+                        <li><code>&lt;nav&gt;</code> — navigasi</li>
+                        <li><code>&lt;main&gt;</code> — konten utama</li>
+                        <li><code>&lt;section&gt;</code> — bagian konten</li>
+                        <li><code>&lt;article&gt;</code> — artikel mandiri</li>
+                        <li><code>&lt;aside&gt;</code> — sidebar</li>
+                        <li><code>&lt;footer&gt;</code> — kaki halaman</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat struktur blog sederhana menggunakan tag semantic di atas.</p>
+                    </div>
+                `
+            },
+            {
+                day: 10, phase: 2, title: "Meta Tag & SEO Dasar",
+                desc: "Optimasi halaman untuk mesin pencari dan tampilan di berbagai perangkat.",
+                material: `
+                    <h3>Meta Tag Penting</h3>
+                    <div class="code-block">
+<span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="value">"UTF-8"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"viewport"</span> <span class="attr">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"description"</span> <span class="attr">content</span>=<span class="value">"Deskripsi halaman"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"keywords"</span> <span class="attr">content</span>=<span class="value">"html, css, web"</span><span class="tag">&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Tambahkan meta tag lengkap ke halaman portofoliomu: title, description, keywords, author.</p>
+                    </div>
+                `
+            },
+            {
+                day: 11, phase: 2, title: "Iframe — Menyisipkan Halaman Lain",
+                desc: "Sisipkan video YouTube atau peta ke dalam halamanmu.",
+                material: `
+                    <h3>Tag Iframe</h3>
+                    <p>Iframe memungkinkan menyematkan halaman atau konten eksternal.</p>
+                    <div class="code-block">
+<span class="tag">&lt;iframe</span> <span class="attr">src</span>=<span class="value">"https://www.youtube.com/embed/VIDEO_ID"</span> 
+        <span class="attr">width</span>=<span class="value">"560"</span> <span class="attr">height</span>=<span class="value">"315"</span><span class="tag">&gt;&lt;/iframe&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Sisipkan video YouTube favoritmu dan Google Maps lokasi rumahmu.</p>
+                    </div>
+                `
+            },
+            {
+                day: 12, phase: 2, title: "Audio & Video HTML5",
+                desc: "Putar audio dan video langsung di halaman web.",
+                material: `
+                    <h3>Tag Video</h3>
+                    <div class="code-block">
+<span class="tag">&lt;video</span> <span class="attr">controls</span> <span class="attr">width</span>=<span class="value">"400"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="value">"video.mp4"</span> <span class="attr">type</span>=<span class="value">"video/mp4"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/video&gt;</span>
+                    </div>
+                    <h3>Tag Audio</h3>
+                    <div class="code-block">
+<span class="tag">&lt;audio</span> <span class="attr">controls</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;source</span> <span class="attr">src</span>=<span class="value">"musik.mp3"</span> <span class="attr">type</span>=<span class="value">"audio/mpeg"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/audio&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat halaman dengan 1 video dan 1 audio. Gunakan file dari internet atau lokal.</p>
+                    </div>
+                `
+            },
+            {
+                day: 13, phase: 2, title: "Atribut Data & Class/ID",
+                desc: "Gunakan class dan id untuk styling dan JavaScript nanti.",
+                material: `
+                    <h3>Class vs ID</h3>
+                    <ul>
+                        <li><code>class</code> — untuk grup elemen (bisa dipakai berkali-kali)</li>
+                        <li><code>id</code> — untuk satu elemen unik (hanya sekali di halaman)</li>
+                    </ul>
+                    <div class="code-block">
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"kartu"</span> <span class="attr">id</span>=<span class="value">"kartu-utama"</span><span class="tag">&gt;</span>
+    Konten
+<span class="tag">&lt;/div&gt;</span>
+                    </div>
+                    <h3>Atribut Data</h3>
+                    <p>Gunakan <code>data-*</code> untuk menyimpan data kustom.</p>
+                    <div class="code-block">
+<span class="tag">&lt;div</span> <span class="attr">data-user-id</span>=<span class="value">"123"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat 3 kartu dengan class sama dan 1 id khusus untuk kartu pertama.</p>
+                    </div>
+                `
+            },
+            {
+                day: 14, phase: 2, title: "Project Mini: Profil Diri",
+                desc: "Gabungkan semua yang sudah dipelajari menjadi 1 halaman profil.",
+                material: `
+                    <h3>Mari Membuat Profil Diri!</h3>
+                    <p>Kamu akan membuat halaman profil yang berisi:</p>
+                    <ul>
+                        <li>Header dengan nama & foto</li>
+                        <li>Section tentang diri</li>
+                        <li>List hobi & keahlian</li>
+                        <li>Tabel pendidikan</li>
+                        <li>Link ke sosial media</li>
+                        <li>Form kontak</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Project:</strong>
+                        <p>Buat file <code>profil.html</code> dan isi dengan semua elemen di atas. Ini adalah project nyata pertamamu!</p>
+                    </div>
+                `
+            },
+
+            // ===== FASE 3: STYLING (Hari 15-21) =====
+            {
+                day: 15, phase: 3, title: "Pengenalan CSS",
+                desc: "Kenalan dengan CSS — bahasa untuk mempercantik HTML.",
+                material: `
+                    <h3>Apa itu CSS?</h3>
+                    <p>CSS (Cascading Style Sheets) mengatur tampilan HTML. Jika HTML = kerangka, CSS = cat dan dekorasi.</p>
+                    <h3>3 Cara Memasang CSS</h3>
+                    <ul>
+                        <li><strong>Inline</strong> — langsung di tag: <code>&lt;p style="color:red;"&gt;</code></li>
+                        <li><strong>Internal</strong> — di dalam <code>&lt;style&gt;</code> di head</li>
+                        <li><strong>External</strong> — file .css terpisah (paling direkomendasikan)</li>
+                    </ul>
+                    <div class="code-block">
+<span class="tag">&lt;style&gt;</span>
+    <span class="keyword">p</span> {
+        <span class="attr">color</span>: <span class="value">blue</span>;
+        <span class="attr">font-size</span>: <span class="value">18px</span>;
+    }
+<span class="tag">&lt;/style&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Ubah warna heading di profilmu menjadi biru dan font-size menjadi 24px.</p>
+                    </div>
+                `
+            },
+            {
+                day: 16, phase: 3, title: "CSS Selector",
+                desc: "Cara memilih elemen HTML untuk diberi style.",
+                material: `
+                    <h3>Jenis Selector</h3>
+                    <ul>
+                        <li><code>p { }</code> — pilih semua tag p</li>
+                        <li><code>.kelas { }</code> — pilih semua elemen dengan class</li>
+                        <li><code>#id { }</code> — pilih elemen dengan id tertentu</li>
+                        <li><code>div p { }</code> — pilih p di dalam div</li>
+                        <li><code>a:hover { }</code> — saat di-hover</li>
+                    </ul>
+                    <div class="code-block">
+<span class="keyword">.tombol</span> {
+    <span class="attr">background</span>: <span class="value">blue</span>;
+    <span class="attr">color</span>: <span class="value">white</span>;
+}
+<span class="keyword">.tombol:hover</span> {
+    <span class="attr">background</span>: <span class="value">darkblue</span>;
+}
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat 3 tombol dengan class <code>tombol</code>, atur warna dan efek hover-nya.</p>
+                    </div>
+                `
+            },
+            {
+                day: 17, phase: 3, title: "Box Model",
+                desc: "Pahami margin, padding, border, dan content.",
+                material: `
+                    <h3>Konsep Box Model</h3>
+                    <p>Setiap elemen HTML itu seperti kotak dengan 4 lapisan:</p>
+                    <ul>
+                        <li><strong>Content</strong> — isi elemen</li>
+                        <li><strong>Padding</strong> — jarak dari content ke border</li>
+                        <li><strong>Border</strong> — garis tepi</li>
+                        <li><strong>Margin</strong> — jarak dari border ke elemen luar</li>
+                    </ul>
+                    <div class="code-block">
+<span class="keyword">.kotak</span> {
+    <span class="attr">width</span>: <span class="value">200px</span>;
+    <span class="attr">padding</span>: <span class="value">20px</span>;
+    <span class="attr">border</span>: <span class="value">2px solid black</span>;
+    <span class="attr">margin</span>: <span class="value">10px</span>;
+}
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat 3 kotak dengan warna berbeda, atur padding dan margin-nya.</p>
+                    </div>
+                `
+            },
+            {
+                day: 18, phase: 3, title: "Flexbox — Layout Modern",
+                desc: "Layout paling populer untuk mengatur posisi elemen.",
+                material: `
+                    <h3>Flexbox Dasar</h3>
+                    <div class="code-block">
+<span class="keyword">.container</span> {
+    <span class="attr">display</span>: <span class="value">flex</span>;
+    <span class="attr">justify-content</span>: <span class="value">center</span>;  <span class="comment">/* horizontal */</span>
+    <span class="attr">align-items</span>: <span class="value">center</span>;      <span class="comment">/* vertical */</span>
+    <span class="attr">gap</span>: <span class="value">20px</span>;
+}
+                    </div>
+                    <h3>Nilai justify-content</h3>
+                    <ul>
+                        <li><code>flex-start</code> — rapat kiri</li>
+                        <li><code>center</code> — tengah</li>
+                        <li><code>flex-end</code> — rapat kanan</li>
+                        <li><code>space-between</code> — spasi rata</li>
+                        <li><code>space-around</code> — spasi sekeliling</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat navbar sederhana dengan logo di kiri dan menu di kanan pakai flexbox.</p>
+                    </div>
+                `
+            },
+            {
+                day: 19, phase: 3, title: "CSS Grid",
+                desc: "Layout dua dimensi dengan baris dan kolom.",
+                material: `
+                    <h3>CSS Grid</h3>
+                    <div class="code-block">
+<span class="keyword">.grid</span> {
+    <span class="attr">display</span>: <span class="value">grid</span>;
+    <span class="attr">grid-template-columns</span>: <span class="value">repeat(3, 1fr)</span>;
+    <span class="attr">gap</span>: <span class="value">20px</span>;
+}
+                    </div>
+                    <h3>Grid vs Flexbox</h3>
+                    <ul>
+                        <li><strong>Flexbox</strong> — 1 dimensi (baris ATAU kolom)</li>
+                        <li><strong>Grid</strong> — 2 dimensi (baris DAN kolom)</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat galeri foto 3x3 menggunakan CSS Grid.</p>
+                    </div>
+                `
+            },
+            {
+                day: 20, phase: 3, title: "Responsive Design",
+                desc: "Buat halaman yang tampil bagus di HP, tablet, dan desktop.",
+                material: `
+                    <h3>Media Query</h3>
+                    <div class="code-block">
+<span class="keyword">@media</span> (max-width: 768px) {
+    <span class="keyword">.container</span> {
+        <span class="attr">flex-direction</span>: <span class="value">column</span>;
+    }
+}
+                    </div>
+                    <h3>Mobile-First</h3>
+                    <p>Tulis CSS untuk mobile dulu, lalu tambahkan media query untuk layar besar.</p>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat halaman dengan 3 kolom di desktop, tapi jadi 1 kolom di HP.</p>
+                    </div>
+                `
+            },
+            {
+                day: 21, phase: 3, title: "Project Mini: Landing Page",
+                desc: "Buat landing page responsif dengan style modern.",
+                material: `
+                    <h3>Landing Page</h3>
+                    <p>Gabungkan HTML + CSS untuk membuat landing page produk/jasa:</p>
+                    <ul>
+                        <li>Hero section dengan judul besar</li>
+                        <li>Section fitur (3 kolom)</li>
+                        <li>Section testimoni</li>
+                        <li>CTA (Call to Action)</li>
+                        <li>Footer</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Project:</strong>
+                        <p>Buat <code>landing.html</code> dengan semua elemen di atas. Ini project portofolio pertamamu!</p>
+                    </div>
+                `
+            },
+
+            // ===== FASE 4: INTERAKTIF (Hari 22-30) =====
+            {
+                day: 22, phase: 4, title: "Pengenalan JavaScript",
+                desc: "Bahasa pemrograman untuk membuat halaman interaktif.",
+                material: `
+                    <h3>Apa itu JavaScript?</h3>
+                    <p>JavaScript membuat halaman web "hidup" — bisa merespons klik, mengubah konten, dan berkomunikasi dengan server.</p>
+                    <h3>Cara Memasang JS</h3>
+                    <div class="code-block">
+<span class="tag">&lt;script&gt;</span>
+    <span class="keyword">console</span>.log(<span class="string">"Halo Dunia!"</span>);
+<span class="tag">&lt;/script&gt;</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat file HTML, tambahkan script yang menampilkan alert "Selamat Datang!".</p>
+                    </div>
+                `
+            },
+            {
+                day: 23, phase: 4, title: "Variabel & Tipe Data",
+                desc: "Menyimpan nilai dalam variabel.",
+                material: `
+                    <h3>Deklarasi Variabel</h3>
+                    <div class="code-block">
+<span class="keyword">let</span> nama = <span class="string">"Budi"</span>;
+<span class="keyword">const</span> umur = <span class="value">25</span>;
+<span class="keyword">var</span> kota = <span class="string">"Jakarta"</span>;
+                    </div>
+                    <h3>Tipe Data</h3>
+                    <ul>
+                        <li><strong>String</strong> — teks: <code>"halo"</code></li>
+                        <li><strong>Number</strong> — angka: <code>25</code></li>
+                        <li><strong>Boolean</strong> — <code>true</code> / <code>false</code></li>
+                        <li><strong>Array</strong> — <code>[1, 2, 3]</code></li>
+                        <li><strong>Object</strong> — <code>{nama: "Budi"}</code></li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat variabel berisi nama, umur, dan hobi (array). Tampilkan di console.</p>
+                    </div>
+                `
+            },
+            {
+                day: 24, phase: 4, title: "Fungsi JavaScript",
+                desc: "Blok kode yang bisa dipanggil berulang kali.",
+                material: `
+                    <h3>Deklarasi Fungsi</h3>
+                    <div class="code-block">
+<span class="keyword">function</span> <span class="attr">sapa</span>(nama) {
+    <span class="keyword">return</span> <span class="string">"Halo, "</span> + nama + <span class="string">"!"</span>;
+}
+<span class="keyword">console</span>.log(sapa(<span class="string">"Budi"</span>));
+                    </div>
+                    <h3>Arrow Function</h3>
+                    <div class="code-block">
+<span class="keyword">const</span> <span class="attr">kali</span> = (a, b) => a * b;
+<span class="keyword">console</span>.log(kali(<span class="value">3</span>, <span class="value">4</span>));  <span class="comment">// 12</span>
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat fungsi <code>hitungLuasPersegi(sisi)</code> yang mengembalikan luas persegi.</p>
+                    </div>
+                `
+            },
+            {
+                day: 25, phase: 4, title: "DOM — Manipulasi HTML",
+                desc: "Ubah konten HTML menggunakan JavaScript.",
+                material: `
+                    <h3>Memilih Elemen</h3>
+                    <div class="code-block">
+<span class="keyword">const</span> judul = <span class="keyword">document</span>.getElementById(<span class="string">"judul"</span>);
+<span class="keyword">const</span> paragraf = <span class="keyword">document</span>.querySelector(<span class="string">".deskripsi"</span>);
+                    </div>
+                    <h3>Mengubah Konten</h3>
+                    <div class="code-block">
+judul.textContent = <span class="string">"Judul Baru"</span>;
+judul.style.color = <span class="string">"red"</span>;
+judul.innerHTML = <span class="string">"&lt;em&gt;Miring&lt;/em&gt;"</span>;
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat halaman dengan 1 tombol. Saat diklik, ubah teks dan warna judul.</p>
+                    </div>
+                `
+            },
+            {
+                day: 26, phase: 4, title: "Event Handling",
+                desc: "Merespons aksi pengguna: klik, hover, submit.",
+                material: `
+                    <h3>addEventListener</h3>
+                    <div class="code-block">
+<span class="keyword">const</span> btn = <span class="keyword">document</span>.querySelector(<span class="string">"#tombol"</span>);
+btn.addEventListener(<span class="string">"click"</span>, <span class="keyword">function</span>() {
+    <span class="keyword">alert</span>(<span class="string">"Tombol diklik!"</span>);
+});
+                    </div>
+                    <h3>Event Populer</h3>
+                    <ul>
+                        <li><code>click</code> — saat diklik</li>
+                        <li><code>mouseover</code> — saat hover</li>
+                        <li><code>keydown</code> — saat keyboard ditekan</li>
+                        <li><code>submit</code> — saat form dikirim</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat 3 tombol dengan 3 event berbeda: ubah warna, tampilkan alert, sembunyikan elemen.</p>
+                    </div>
+                `
+            },
+            {
+                day: 27, phase: 4, title: "Array & Loop",
+                desc: "Mengelola data banyak dengan array dan perulangan.",
+                material: `
+                    <h3>Array Method</h3>
+                    <div class="code-block">
+<span class="keyword">const</span> buah = [<span class="string">"apel"</span>, <span class="string">"jeruk"</span>, <span class="string">"mangga"</span>];
+
+<span class="comment">// Loop</span>
+buah.forEach((item) => {
+    <span class="keyword">console</span>.log(item);
+});
+
+<span class="comment">// Map</span>
+<span class="keyword">const</span> panjang = buah.map(b => b.length);
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat array 5 hobimu, tampilkan semuanya ke halaman pakai forEach.</p>
+                    </div>
+                `
+            },
+            {
+                day: 28, phase: 4, title: "Fetch API — Ambil Data",
+                desc: "Ambil data dari server menggunakan JavaScript.",
+                material: `
+                    <h3>Fetch API</h3>
+                    <div class="code-block">
+<span class="keyword">fetch</span>(<span class="string">"https://api.example.com/data"</span>)
+    .then(response => response.json())
+    .then(data => {
+        <span class="keyword">console</span>.log(data);
+    })
+    .catch(error => {
+        <span class="keyword">console</span>.error(error);
+    });
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Ambil data dari API publik (misal: JSONPlaceholder) dan tampilkan judulnya.</p>
+                    </div>
+                `
+            },
+            {
+                day: 29, phase: 4, title: "LocalStorage",
+                desc: "Simpan data di browser pengguna.",
+                material: `
+                    <h3>Menyimpan & Mengambil Data</h3>
+                    <div class="code-block">
+<span class="comment">// Simpan</span>
+localStorage.setItem(<span class="string">"nama"</span>, <span class="string">"Budi"</span>);
+
+<span class="comment">// Ambil</span>
+<span class="keyword">const</span> nama = localStorage.getItem(<span class="string">"nama"</span>);
+
+<span class="comment">// Hapus</span>
+localStorage.removeItem(<span class="string">"nama"</span>);
+                    </div>
+                    <div class="exercise-box">
+                        <strong>💪 Latihan:</strong>
+                        <p>Buat aplikasi to-do list sederhana yang menyimpan daftar di localStorage.</p>
+                    </div>
+                `
+            },
+            {
+                day: 30, phase: 4, title: "Project Akhir: Aplikasi To-Do List",
+                desc: "Gabungkan HTML, CSS, dan JavaScript menjadi aplikasi nyata.",
+                material: `
+                    <h3>Aplikasi To-Do List</h3>
+                    <p>Kamu akan membuat aplikasi yang bisa:</p>
+                    <ul>
+                        <li>Menambah tugas baru</li>
+                        <li>Menandai tugas sebagai selesai</li>
+                        <li>Menghapus tugas</li>
+                        <li>Menyimpan daftar di localStorage</li>
+                        <li>Menampilkan statistik tugas</li>
+                    </ul>
+                    <div class="exercise-box">
+                        <strong>🏆 Project Akhir:</strong>
+                        <p>Buat file <code>todo.html</code> lengkap dengan HTML, CSS, dan JS. Ini adalah pencapaian besar — kamu sudah menyelesaikan 30 hari belajar!</p>
+                    </div>
+                `
+            }
+        ];
+
+        // ============================================================
+        // STATE & LOCALSTORAGE
+        // ============================================================
+        const STORAGE_KEY = 'belajar_html_progress';
+
+        function loadProgress() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : { completedDays: [], lastVisit: null };
+            } catch (e) {
+                return { completedDays: [], lastVisit: null };
+            }
+        }
+
+        function saveProgress(progress) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            } catch (e) {
+                console.warn('Gagal menyimpan progress:', e);
+            }
+        }
+
+        let progress = loadProgress();
+        let currentFilter = 'all';
+
+        // ============================================================
+        // RENDER
+        // ============================================================
+        function render() {
+            renderDays();
+            updateStats();
+            updateProgressBar();
+        }
+
+        function renderDays() {
+            const dayList = document.getElementById('dayList');
+            dayList.innerHTML = '';
+
+            const filtered = currentFilter === 'all'
+                ? curriculum
+                : curriculum.filter(d => d.phase === parseInt(currentFilter));
+
+            filtered.forEach((item, index) => {
+                const isCompleted = progress.completedDays.includes(item.day);
+                const card = document.createElement('div');
+                card.className = `day-card ${isCompleted ? 'completed' : ''}`;
+                card.setAttribute('data-phase', item.phase);
+                card.style.animationDelay = `${index * 0.05}s`;
+
+                const phaseName = {
+                    1: 'Pemula',
+                    2: 'Menengah',
+                    3: 'Mahir',
+                    4: 'Expert'
+                }[item.phase];
+
+                card.innerHTML = `
+                    <div class="day-header">
+                        <div class="day-number">${item.day}</div>
+                        <div class="day-title">${item.title}</div>
+                        <span class="day-badge phase-${item.phase}">${phaseName}</span>
+                    </div>
+                    <div class="day-desc">${item.desc}</div>
+                    <div class="day-actions">
+                        <button class="btn btn-primary" onclick="openModal(${item.day})">
+                            <i class="fas fa-book-open"></i> Pelajari (5 menit)
+                        </button>
+                        <button class="btn ${isCompleted ? 'btn-outline' : 'btn-success'}"
+                                onclick="toggleComplete(${item.day})">
+                            <i class="fas ${isCompleted ? 'fa-undo' : 'fa-check'}"></i>
+                            ${isCompleted ? 'Batal Selesai' : 'Tandai Selesai'}
+                        </button>
+                    </div>
+                `;
+                dayList.appendChild(card);
+            });
+        }
+
+        function updateStats() {
+            const totalDays = curriculum.length;
+            const completed = progress.completedDays.length;
+            const minutes = completed * 5;
+
+            document.getElementById('statDays').textContent = completed;
+            document.getElementById('statMinutes').textContent = minutes;
+
+            // Level
+            let level = 'Pemula';
+            if (completed >= 25) level = 'Expert';
+            else if (completed >= 18) level = 'Mahir';
+            else if (completed >= 10) level = 'Menengah';
+            else if (completed >= 3) level = 'Pemula+';
+            document.getElementById('statLevel').textContent = level;
+
+            // Streak (sederhana: hitung hari selesai berturut-turut dari hari 1)
+            let streak = 0;
+            for (let i = 1; i <= totalDays; i++) {
+                if (progress.completedDays.includes(i)) streak++;
+                else break;
+            }
+            document.getElementById('statStreak').textContent = streak;
+        }
+
+        function updateProgressBar() {
+            const total = curriculum.length;
+            const completed = progress.completedDays.length;
+            const percent = Math.round((completed / total) * 100);
+
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `${completed} dari ${total} hari selesai`;
+            document.getElementById('progressPercent').textContent = percent + '%';
+        }
+
+        // ============================================================
+        // ACTIONS
+        // ============================================================
+        function toggleComplete(day) {
+            const idx = progress.completedDays.indexOf(day);
+            if (idx === -1) {
+                progress.completedDays.push(day);
+                progress.lastVisit = new Date().toISOString();
+            } else {
+                progress.completedDays.splice(idx, 1);
+            }
+            progress.completedDays.sort((a, b) => a - b);
+            saveProgress(progress);
+            render();
+        }
+
+        function openModal(day) {
+            const item = curriculum.find(d => d.day === day);
+            if (!item) return;
+
+            const modal = document.getElementById('modalContent');
+            modal.innerHTML = `
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <span class="day-badge phase-${item.phase}" style="margin-bottom:10px;display:inline-block;">
+                    Hari ${item.day} — Fase ${item.phase}
+                </span>
+                <h2>${item.title}</h2>
+                <p class="modal-subtitle">${item.desc}</p>
+                <div class="modal-body">
+                    ${item.material}
+                </div>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-success" onclick="toggleComplete(${item.day}); closeModal();">
+                        <i class="fas fa-check"></i> Tandai Selesai
+                    </button>
+                    <button class="btn btn-outline" onclick="closeModal()">
+                        <i class="fas fa-times"></i> Tutup
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Phase filter
+            document.querySelectorAll('.phase-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.getAttribute('data-phase');
+                    render();
+                });
+            });
+
+            // Theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            const savedTheme = localStorage.getItem('belajar_html_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark');
+                const isDark = document.body.classList.contains('dark');
+                this.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+                localStorage.setItem('belajar_html_theme', isDark ? 'dark' : 'light');
+            });
+
+            // Close modal
+            document.getElementById('modalOverlay').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+
+            // ESC close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            // Initial render
+            render();
+        });
+    </script>
+</body>
+</html>
